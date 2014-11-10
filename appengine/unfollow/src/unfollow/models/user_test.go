@@ -19,7 +19,7 @@ func TestPutUser(t *testing.T) {
 
     db := db.New(context, cache)
 
-    data := &User{Name: "Name", Bio: "Bio", Username: "username", Email: "name@name.name", AccessToken: "access_token"}
+    data := &User{Name: "Name", Bio: "Bio", Username: "username", Avatar: "", AccessToken: "access_token"}
     user1, err := PutUser(db, UserKey(db, 1), data)
     if err != nil {
         t.Fatal(err)
