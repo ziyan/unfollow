@@ -3,10 +3,10 @@
   %li<>
     {{ if .Session.User }}
     %a{href: "{{ url \"user:logout\" }}", "data-pjax" => "false", title: "{{ .Session.User.Name }}"}<>
-      %img.rounded{src: "https://avatars.githubusercontent.com/u/{{ .Session.User.ID }}", width: 20, height: 20, alt: "{{ .Session.User.Name }}"}
+      %img.rounded{src: "https://pbs.twimg.com/profile_images/{{ .Session.User.ID }}/avatarpic-l.png", width: 20, height: 20, alt: "{{ .Session.User.Name }}"}
     {{ else }}
-    %a.js-ajax{href: "#", "data-ajax-get" => "/user/login", title: "{{ .GetText \"Sign in with Github\" }}"}<>
+    %a.js-ajax{href: "#", "data-ajax-get" => "/user/login", title: "{{ .GetText \"Sign in with Twitter\" }}"}<>
       {{ .GetText "Sign in with" }}
-      %i.fa.fa-fw.fa-lg.fa-github.sp-left<>
+      %i.fa.fa-fw.fa-lg.fa-twitter.sp-left<>
     {{ end }}
 {{ end }}
