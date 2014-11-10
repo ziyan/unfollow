@@ -1,0 +1,9 @@
+{{ define "settings" }}
+.hide.js-settings<>
+  %div{"data-key" => "DEBUG",  "data-value" => "{{ .Settings.DEBUG }}"}<>
+  %div{"data-key" => "VERSION", "data-value" => "{{ .Settings.VERSION }}"}<>
+  %div{"data-key" => "STATIC", "data-value" => "{{ .Settings.STATIC }}"}<>
+  %div{"data-key" => "ANALYTICS", "data-value" => "{{ .Settings.ANALYTICS }}"}<>
+  %div{"data-key" => "SOCKET", "data-value" => "{{ .Settings.SOCKET }}"}<>
+  %div{"data-key" => "LOCALE", "data-value" => "{{ .Translation.Locale }}"}<>
+{{ end }}

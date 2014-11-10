@@ -1,0 +1,16 @@
+application: unfollow-io
+version: 1
+module: frontend
+
+instance_class: F1
+automatic_scaling:
+  max_concurrent_requests: 25
+
+runtime: go
+api_version: go1
+
+inbound_services:
+- warmup
+
+includes:
+- app.yaml

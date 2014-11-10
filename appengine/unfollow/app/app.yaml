@@ -1,0 +1,28 @@
+
+handlers:
+- url: /favicon\.ico
+  static_files: static/favicon.ico
+  upload: static/favicon.ico
+  expiration: 30d
+  secure: optional
+
+- url: /robots\.txt
+  static_files: static/robots.txt
+  upload: static/robots.txt
+  expiration: 30d
+  secure: optional
+
+- url: /static/[0-9a-f]+/
+  static_dir: static/
+  expiration: 365d
+  secure: optional
+
+- url: /task/.*
+  script: _go_app
+  secure: always
+  login: admin
+
+- url: /.*
+  script: _go_app
+  secure: always
+

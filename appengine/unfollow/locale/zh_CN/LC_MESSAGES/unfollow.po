@@ -1,0 +1,53 @@
+# Unfollow
+# Copyright (C) 2014 Unfollow
+# This file is distributed under the same license as the unfollow package.
+# Ziyan Zhou <zhou@ziyan.info>, 2014.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: unfollow 1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-09-12 16:05-0700\n"
+"PO-Revision-Date: 2014-04-29 20:32-0700\n"
+"Last-Translator: Ziyan Zhou <zhou@ziyan.info>\n"
+"Language-Team: Chinese (simplified)\n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../src/unfollow/page/views.go:12
+msgid "About Unfollow"
+msgstr ""
+
+#: ../html/base.html.haml:13
+msgid "Un<b>follow</b>"
+msgstr ""
+
+#: ../src/unfollow/web/view.go:76 ../src/unfollow/user/ajaxs.go:29
+msgid "Unfollow"
+msgstr ""
+
+#: ../html/inc/nav.html.haml:4
+msgid "Features"
+msgstr ""
+
+#: ../src/unfollow/user/ajaxs.go:29
+#, fuzzy
+msgid "Hello world!"
+msgstr "你好, 世界!"
+
+#: ../html/inc/footer.html.haml:41
+msgid "Language"
+msgstr ""
+
+#: ../html/inc/status.html.haml:9
+msgid "Sign in with"
+msgstr "登录"
+
+#: ../html/base.html.haml:7
+msgid "Toggle navigation"
+msgstr "切换导航"
+
+#~ msgid "Hello %s"
+#~ msgstr "你好 %s"

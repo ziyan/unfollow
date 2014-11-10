@@ -1,0 +1,14 @@
+application: unfollow-io
+dispatch:
+- url: "*/_ah/*"
+  module: default
+
+- url: "*/task/*"
+  module: default
+
+- url: "*/api/*"
+  module: api
+
+- url: "*/*"
+  module: frontend
+

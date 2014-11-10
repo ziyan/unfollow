@@ -1,0 +1,16 @@
+application: unfollow-io
+total_storage_limit: 1G
+
+queue:
+
+- name: default
+  mode: push
+  rate: 100/s
+  bucket_size: 100
+  max_concurrent_requests: 10
+  retry_parameters:
+    task_age_limit: 365d
+    min_backoff_seconds: 5
+    max_backoff_seconds: 86400
+    max_doublings: 16
+

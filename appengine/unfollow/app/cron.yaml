@@ -1,0 +1,7 @@
+application: unfollow-io
+cron:
+
+- description: keepalive
+  url: /
+  schedule: every 2 minutes
+

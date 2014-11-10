@@ -1,0 +1,12 @@
+{{ define "" }}<!DOCTYPE html>
+%html<>
+  %head<>
+    %meta{charset: "utf-8"}<>
+    %title<> {{ .Title }}
+    %link{rel: "stylesheet", href: "//fonts.googleapis.com/css?family=Titillium+Web:300,600|Open+Sans:400,700", type: "text/css"}<>
+    %link{rel: "stylesheet", href: "{{ .Settings.STATIC }}/{{ .Settings.VERSION }}/css/unfollow.css", type: "text/css"}<>
+    %meta{name: "viewport", content: "user-scalable=0, initial-scale=1.0"}<>
+  %body<>
+    {{ template "body" . }}
+    %script{src: "{{ .Settings.STATIC }}/{{ .Settings.VERSION }}/js/unfollow.js", type: "text/javascript"}<>
+{{ end }}
