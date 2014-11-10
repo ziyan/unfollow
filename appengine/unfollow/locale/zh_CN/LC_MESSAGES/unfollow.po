@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unfollow 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 00:38-0800\n"
+"POT-Creation-Date: 2014-11-10 00:47-0800\n"
 "PO-Revision-Date: 2014-04-29 20:32-0700\n"
 "Last-Translator: Ziyan Zhou <zhou@ziyan.info>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -45,7 +45,7 @@ msgstr "切换导航"
 msgid "Un<b>follow</b>"
 msgstr ""
 
-#: ../src/unfollow/user/ajaxs.go:29 ../src/unfollow/web/view.go:75
+#: ../src/unfollow/web/view.go:75 ../src/unfollow/user/ajaxs.go:29
 msgid "Unfollow"
 msgstr ""
 

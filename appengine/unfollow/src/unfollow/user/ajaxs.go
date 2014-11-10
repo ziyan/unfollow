@@ -2,7 +2,6 @@ package user
 
 import (
     "unfollow/ajax"
-    "unfollow/utils/email"
     "unfollow/web"
 )
 
@@ -23,10 +22,5 @@ var _ = ajax.Get("user:login", "/user/login", func(view *web.View) (interface{},
     return struct {
         Redirect string `json:"redirect"`
     }{redirect}, nil
-})
-
-var _ = ajax.Get("user:email", "/user/email", func(view *web.View) (interface{}, error) {
-    email.Send(view.Context, view.Translation.GetText("Unfollow"), view.Session.User.Name, view.Session.User.Email, view.Translation.GetText("Hello world!"), "TEXT", "HTML", "hello")
-    return nil, nil
 })
 

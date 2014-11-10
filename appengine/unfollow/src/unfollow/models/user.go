@@ -21,7 +21,7 @@ type User struct {
     Bio  string `datastore:"bio,noindex"`
 
     Username string `datastore:"username,noindex"`
-    Email    string `datastore:"email,noindex"`
+    Avatar   string `datastore:"avatar,noindex"`
 
     AccessToken string `datastore:"access_token,noindex"`
 }
@@ -100,7 +100,7 @@ func PutUser(d *db.Database, key *datastore.Key, data *User) (*User, error) {
         if user.Ok() {
             if user.Name == data.Name &&
                 user.Bio == data.Bio &&
-                user.Email == data.Email &&
+                user.Avatar == data.Avatar &&
                 user.Username == data.Username &&
                 user.AccessToken == data.AccessToken {
                 // nothing changed
@@ -119,7 +119,7 @@ func PutUser(d *db.Database, key *datastore.Key, data *User) (*User, error) {
         // update user
         user.Name = data.Name
         user.Bio = data.Bio
-        user.Email = data.Email
+        user.Avatar = data.Avatar
         user.Username = data.Username
         user.AccessToken = data.AccessToken
 

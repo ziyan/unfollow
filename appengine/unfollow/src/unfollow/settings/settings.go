@@ -7,6 +7,7 @@ import (
     "net/url"
     "os"
     "time"
+    "github.com/ziyan/oauth"
 )
 
 var DEBUG = appengine.IsDevAppServer()
@@ -57,3 +58,4 @@ var LOCALE_PATTERNS = map[string]string{
     "ja": "ja_JP",
 }
 
+var TWITTER_CONSUMER = oauth.NewToken("BBGDVII6UxbTvD77pN6eKvHq9", "xeSZo1SHASytg52DXAt4XRowmZJma5X2ZHoHVuZuCpWHvVrO6o")
