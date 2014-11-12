@@ -1,8 +1,8 @@
 package templates
 
 import (
-    "unfollow/urls"
     "html/template"
+    "unfollow/urls"
 )
 
 var _ = Register("url", func(name string, pairs ...string) string {

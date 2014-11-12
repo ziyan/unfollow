@@ -1,10 +1,10 @@
 package ajax
 
 import (
-    "unfollow/urls"
-    "unfollow/web"
     "encoding/json"
     "strings"
+    "unfollow/urls"
+    "unfollow/web"
 )
 
 type Function func(view *web.View) (interface{}, error)

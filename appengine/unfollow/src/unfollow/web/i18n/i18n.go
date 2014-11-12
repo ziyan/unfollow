@@ -2,14 +2,14 @@ package i18n
 
 import (
     "appengine"
-    "unfollow/settings"
-    "unfollow/web/sessions"
     "fmt"
     "github.com/gorilla/i18n/gettext"
     "net/http"
     "os"
     "path"
     "regexp"
+    "unfollow/settings"
+    "unfollow/web/sessions"
 )
 
 const (

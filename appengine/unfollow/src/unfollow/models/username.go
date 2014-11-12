@@ -2,8 +2,8 @@ package models
 
 import (
     "appengine/datastore"
-    "unfollow/utils/db"
     "strings"
+    "unfollow/utils/db"
 )
 
 const (

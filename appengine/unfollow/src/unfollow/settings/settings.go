@@ -4,10 +4,10 @@ import (
     "appengine"
     "crypto/sha1"
     "encoding/hex"
+    "github.com/ziyan/oauth"
     "net/url"
     "os"
     "time"
-    "github.com/ziyan/oauth"
 )
 
 var DEBUG = appengine.IsDevAppServer()

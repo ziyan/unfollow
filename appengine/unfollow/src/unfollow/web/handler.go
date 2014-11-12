@@ -2,12 +2,12 @@ package web
 
 import (
     "appengine"
-    "unfollow/utils/cache"
-    "unfollow/utils/db"
-    "unfollow/web/templates"
     "github.com/gorilla/mux"
     "github.com/mjibson/appstats"
     "net/http"
+    "unfollow/utils/cache"
+    "unfollow/utils/db"
+    "unfollow/web/templates"
 )
 
 type Handler struct {

@@ -2,11 +2,11 @@ package models
 
 import (
     "appengine/datastore"
-    "unfollow/urls"
-    "unfollow/utils/db"
     "net/url"
     "strconv"
     "strings"
+    "unfollow/urls"
+    "unfollow/utils/db"
 )
 
 const (
@@ -174,4 +174,3 @@ func PutUser(d *db.Database, key *datastore.Key, data *User) (*User, error) {
 
     return user, nil
 }
-

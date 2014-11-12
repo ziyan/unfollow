@@ -6,11 +6,6 @@ package sessions
 import (
     "appengine"
     "appengine/datastore"
-    "unfollow/models"
-    "unfollow/settings"
-    "unfollow/utils/cache"
-    "unfollow/utils/db"
-    "unfollow/utils/security"
     "crypto/hmac"
     "crypto/sha1"
     "encoding/base64"
@@ -19,6 +14,11 @@ import (
     "strconv"
     "strings"
     "time"
+    "unfollow/models"
+    "unfollow/settings"
+    "unfollow/utils/cache"
+    "unfollow/utils/db"
+    "unfollow/utils/security"
 )
 
 const (

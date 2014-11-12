@@ -2,6 +2,9 @@ package web
 
 import (
     "appengine"
+    "github.com/gorilla/mux"
+    "github.com/mjibson/appstats"
+    "net/http"
     "unfollow/settings"
     "unfollow/utils/cache"
     "unfollow/utils/db"
@@ -9,9 +12,6 @@ import (
     "unfollow/web/i18n"
     "unfollow/web/sessions"
     "unfollow/web/templates"
-    "github.com/gorilla/mux"
-    "github.com/mjibson/appstats"
-    "net/http"
 )
 
 type View struct {

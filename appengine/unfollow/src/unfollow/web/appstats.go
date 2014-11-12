@@ -1,9 +1,9 @@
 package web
 
 import (
-    "unfollow/settings"
     "github.com/mjibson/appstats"
     "net/http"
+    "unfollow/settings"
 )
 
 func init() {

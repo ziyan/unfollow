@@ -3,9 +3,9 @@ package db
 import (
     "appengine/aetest"
     "appengine/datastore"
-    "unfollow/utils/cache"
     "encoding/gob"
     "testing"
+    "unfollow/utils/cache"
 )
 
 type TestModel struct {

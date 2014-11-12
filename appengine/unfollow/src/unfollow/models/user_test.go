@@ -2,9 +2,9 @@ package models
 
 import (
     "appengine/aetest"
+    "testing"
     "unfollow/utils/cache"
     "unfollow/utils/db"
-    "testing"
 )
 
 func TestPutUser(t *testing.T) {

@@ -3,8 +3,8 @@ package cache
 import (
     "appengine"
     "appengine/memcache"
-    "unfollow/settings"
     "time"
+    "unfollow/settings"
 )
 
 type Cache struct {

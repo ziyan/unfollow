@@ -3,10 +3,10 @@ package db
 import (
     "appengine"
     "appengine/datastore"
-    "unfollow/utils/cache"
-    "unfollow/utils/security"
     "strings"
     "time"
+    "unfollow/utils/cache"
+    "unfollow/utils/security"
 )
 
 const (

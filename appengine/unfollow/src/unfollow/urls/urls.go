@@ -1,10 +1,10 @@
 package urls
 
 import (
-    "unfollow/settings"
     "github.com/gorilla/mux"
     "net/http"
     "net/url"
+    "unfollow/settings"
 )
 
 // Global router.

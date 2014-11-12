@@ -5,10 +5,10 @@ import (
     "appengine/delay"
     "appengine/urlfetch"
     "bytes"
-    "unfollow/settings"
     "encoding/json"
     "fmt"
     "net/http"
+    "unfollow/settings"
 )
 
 var send = delay.Func("email", func(context appengine.Context, sender, recipient, to, subject, text, html, tag string) error {

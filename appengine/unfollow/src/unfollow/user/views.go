@@ -1,12 +1,12 @@
 package user
 
 import (
-    "unfollow/models"
-    "unfollow/urls"
-    "unfollow/web"
     "net/http"
     "strconv"
     "strings"
+    "unfollow/models"
+    "unfollow/urls"
+    "unfollow/web"
 )
 
 func LoginView(view *web.View) error {

@@ -1,17 +1,17 @@
 package user
 
 import (
+    "github.com/ziyan/oauth"
+    "strings"
     "unfollow/models"
     "unfollow/urls"
     "unfollow/utils/twitter"
     "unfollow/web"
-    "strings"
-    "github.com/ziyan/oauth"
 )
 
 const (
     sessionRequestTokenKey = "request_token"
-    sessionCallbackKey = "callback"
+    sessionCallbackKey     = "callback"
 )
 
 func createLogonUrl(view *web.View, next string) (string, error) {
@@ -54,7 +54,7 @@ func handleLogon(view *web.View) error {
     if err := view.Request.ParseForm(); err != nil {
         return err
     }
-    
+
     if requestToken.Key() != view.Request.FormValue("oauth_token") {
         return web.ErrBadRequest
     }

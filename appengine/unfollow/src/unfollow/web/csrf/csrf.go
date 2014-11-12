@@ -2,11 +2,11 @@ package csrf
 
 import (
     "appengine"
+    "errors"
+    "net/http"
     "unfollow/settings"
     "unfollow/utils/security"
     "unfollow/web/sessions"
-    "errors"
-    "net/http"
 )
 
 var ErrTokenInvalid = errors.New("csrf: invalid token")

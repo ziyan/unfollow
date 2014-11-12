@@ -2,10 +2,10 @@ package web
 
 import (
     "appengine"
-    "unfollow/settings"
-    "unfollow/urls"
     "errors"
     "net/http"
+    "unfollow/settings"
+    "unfollow/urls"
 )
 
 var (

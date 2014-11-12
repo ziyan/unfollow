@@ -1,8 +1,8 @@
 package api
 
 import (
-    "unfollow/web"
     "encoding/json"
+    "unfollow/web"
 )
 
 type Function func(handler *web.Handler) (interface{}, error)

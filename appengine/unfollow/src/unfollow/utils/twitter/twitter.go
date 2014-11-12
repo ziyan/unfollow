@@ -3,22 +3,22 @@ package twitter
 import (
     "appengine"
     "appengine/urlfetch"
-    "unfollow/settings"
-    "unfollow/utils/security"
-    "github.com/ziyan/oauth"
+    "bytes"
+    "encoding/json"
     "errors"
-    "net/url"
-    "net/http"
+    "fmt"
+    "github.com/ziyan/oauth"
     "io"
     "io/ioutil"
-    "fmt"
-    "encoding/json"
-    "bytes"
+    "net/http"
+    "net/url"
+    "unfollow/settings"
+    "unfollow/utils/security"
 )
 
 var (
-    ErrCallbackUnconfirmed  = errors.New("twitter: callback unconfirmed")
-    ErrNotFound = errors.New("twitter: not found")
+    ErrCallbackUnconfirmed = errors.New("twitter: callback unconfirmed")
+    ErrNotFound            = errors.New("twitter: not found")
 )
 
 func GetRequestToken(context appengine.Context, callback string) (*oauth.Token, error) {
@@ -97,7 +97,7 @@ func CreateAuthorizeUrl(token *oauth.Token) (string, error) {
 }
 
 func GetAccessToken(context appengine.Context, token *oauth.Token, verifier string) (*oauth.Token, error) {
-    
+
     values := url.Values{
         "oauth_verifier": {verifier},
     }
