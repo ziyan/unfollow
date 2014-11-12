@@ -67,3 +67,37 @@ var _ = ajax.Get("user:mentions", "/user/mentions", func(view *web.View) (interf
         Tweets []*twitter.Tweet `json:"tweets"`
     }{tweets}, nil
 })
+
+var _ = ajax.Get("user:followers", "/user/followers", func(view *web.View) (interface{}, error) {
+    accessToken, err := oauth.DecodeToken(view.Session.User.AccessToken)
+    if err != nil {
+        return nil, err
+    }
+
+    t := twitter.New(view.Context, accessToken)
+    users, err := t.Followers(view.Session.User.ID())
+    if err != nil {
+        return nil, err
+    }
+
+    return struct {
+        Users []*twitter.User `json:"users"`
+    }{users}, nil
+})
+
+var _ = ajax.Get("user:friends", "/user/friends", func(view *web.View) (interface{}, error) {
+    accessToken, err := oauth.DecodeToken(view.Session.User.AccessToken)
+    if err != nil {
+        return nil, err
+    }
+
+    t := twitter.New(view.Context, accessToken)
+    users, err := t.Friends(view.Session.User.ID())
+    if err != nil {
+        return nil, err
+    }
+
+    return struct {
+        Users []*twitter.User `json:"users"`
+    }{users}, nil
+})

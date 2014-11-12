@@ -2,6 +2,7 @@ package twitter
 
 import (
     "net/url"
+    "strconv"
 )
 
 type User struct {
@@ -24,4 +25,36 @@ func (twitter *Twitter) VerifyCredentials() (*User, error) {
 
     twitter.Context.Infof("twitter: user: %v", user)
     return &user, nil
+}
+
+func (twitter *Twitter) Followers(id int64) ([]*User, error) {
+    result := struct {
+        Users []*User `json:"users"`
+    }{}
+    values := url.Values{
+        "count":   {"200"},
+        "user_id": {strconv.FormatInt(id, 10)},
+    }
+    if err := twitter.Get("/1.1/followers/list.json", values, &result); err != nil {
+        return nil, err
+    }
+
+    twitter.Context.Infof("twitter: followers: %v", result)
+    return result.Users, nil
+}
+
+func (twitter *Twitter) Friends(id int64) ([]*User, error) {
+    result := struct {
+        Users []*User `json:"users"`
+    }{}
+    values := url.Values{
+        "count":   {"200"},
+        "user_id": {strconv.FormatInt(id, 10)},
+    }
+    if err := twitter.Get("/1.1/friends/list.json", values, &result); err != nil {
+        return nil, err
+    }
+
+    twitter.Context.Infof("twitter: friends: %v", result)
+    return result.Users, nil
 }
