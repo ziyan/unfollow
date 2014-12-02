@@ -11,6 +11,8 @@ type User struct {
     Name                 string `json:"name"`
     Description          string `json:"description"`
     ProfileImageUrlHttps string `json:"profile_image_url_https"`
+    TweetsCount          int64  `json:"statuses_count"`
+    FriendsCount         int64  `json:"friends_count"`
 }
 
 func (twitter *Twitter) VerifyCredentials() (*User, error) {

@@ -5,12 +5,8 @@ import (
 )
 
 type Tweet struct {
-    ID   int64 `json:"id"`
-    User struct {
-        ID           int64 `json:"id"`
-        TweetsCount  int64 `json:"statuses_count"`
-        FriendsCount int64 `json:"friends_count"`
-    }   `json:"user"`
+    ID                  int64  `json:"id"`
+    User                User   `json:"user"`
     InReplyToTweetID    int64  `json:"in_reply_to_status_id"`
     InReplyToScreenName string `json:"in_reply_to_screen_name"`
 }
