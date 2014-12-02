@@ -9,4 +9,5 @@ func init() {
     gob.Register(Session{})
     gob.Register(User{})
     gob.Register(Username{})
+    gob.Register(Node{})
 }
