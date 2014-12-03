@@ -10,9 +10,19 @@ type User struct {
     ScreenName           string `json:"screen_name"`
     Name                 string `json:"name"`
     Description          string `json:"description"`
+    Location             string `json:"location"`
+    Website              string `json:"url"`
     ProfileImageUrlHttps string `json:"profile_image_url_https"`
     TweetsCount          int64  `json:"statuses_count"`
     FriendsCount         int64  `json:"friends_count"`
+    FollowersCount       int64  `json:"followers_count"`
+    ListedCount          int64  `json:"listed_count"`
+    Verified             bool   `json:"verified"`
+    Protected            bool   `json:"protected"`
+    ContributorsEnabled  bool   `json:"contributors_enabled"`
+    DefaultProfile       bool   `json:"default_profile"`
+    DefaultProfileImage  bool   `json:"default_profile_image"`
+    CreatedAt            string `json:"created_at"`
 }
 
 func (twitter *Twitter) VerifyCredentials() (*User, error) {

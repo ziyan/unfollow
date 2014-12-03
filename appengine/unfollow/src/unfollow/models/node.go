@@ -3,7 +3,6 @@ package models
 import (
     "appengine/datastore"
     "unfollow/utils/db"
-    "reflect"
 )
 
 const (
@@ -14,17 +13,19 @@ type Node struct {
     key *datastore.Key `datastore:"-"`
     ok  bool           `datastore:"-"`
 
-    Name string `datastore:"name,noindex"`
-    Bio  string `datastore:"bio,noindex"`
+    Name        string `datastore:"name,noindex"`
+    Description string `datastore:"description,noindex"`
+    Location    string `datastore:"location,noindex"`
+    Website     string `datastore:"website,noindex"`
 
-    Username string `datastore:"username,noindex"`
-    Avatar   string `datastore:"avatar,noindex"`
+    ScreenName string `datastore:"screen_name,noindex"`
+    Avatar     string `datastore:"avatar,noindex"`
 
-    FriendCount int64 `datastore:"friend_count,noindex"`
-    FollowerCount int64 `datastore:"follower_count,noindex"`
+    FriendsCount   int64 `datastore:"friend_count,noindex"`
+    FollowersCount int64 `datastore:"follower_count,noindex"`
 
-    FriendIDs []int64 `datastore:"friend_ids,noindex"`
-    FollowerIDs []int64 `datastore:"follower_ids,noindex"`
+    FriendsIDs   []int64 `datastore:"friends_ids,noindex"`
+    FollowersIDs []int64 `datastore:"followers_ids,noindex"`
 }
 
 func (u *Node) Key() *datastore.Key {
@@ -63,50 +64,46 @@ func GetNode(db *db.Database, key *datastore.Key) (*Node, error) {
     return node, nil
 }
 
+func GetNodes(d *db.Database, keys []*datastore.Key) ([]*Node, error) {
+    nodes := make([]*Node, 0, len(keys))
+    entities := make([]db.Entity, 0, len(keys))
+    for _, key := range keys {
+        node := &Node{}
+        node.SetKey(key)
+        nodes = append(nodes, node)
+        entities = append(entities, node)
+    }
+
+    if err := d.GetMulti(entities, nil); err != nil {
+        return nil, err
+    }
+
+    return nodes, nil
+}
+
 func GetNodeByID(db *db.Database, id int64) (*Node, error) {
     return GetNode(db, NodeKey(db, id))
 }
 
-func PutNode(d *db.Database, key *datastore.Key, data *Node) (*Node, error) {
+func GetNodesByID(db *db.Database, ids []int64) ([]*Node, error) {
+    keys := make([]*datastore.Key, 0, len(ids))
+    for _, id := range ids {
+        keys = append(keys, NodeKey(db, id))
+    }
+
+    nodes, err := GetNodes(db, keys)
+    if err != nil {
+        return nil, err
+    }
+
+    return nodes, nil
+}
+
+func PutNode(db *db.Database, key *datastore.Key, data *Node) (*Node, error) {
     node := &Node{}
     node.SetKey(key)
-    if err := d.Transaction(func(db *db.Database) error {
-        // get existing node
-        if err := db.Get(node, nil); err != nil {
-            return err
-        }
 
-        if node.Ok() {
-            if node.Name == data.Name &&
-                node.Bio == data.Bio &&
-                node.Avatar == data.Avatar &&
-                node.Username == data.Username &&
-                node.FriendCount == data.FriendCount &&
-                node.FollowerCount == data.FollowerCount &&
-                reflect.DeepEqual(node.FriendIDs, data.FriendIDs) &&
-                reflect.DeepEqual(node.FollowerIDs, data.FollowerIDs) {
-                // nothing changed
-                return nil
-            }
-        }
-
-        // update node
-        node.Name = data.Name
-        node.Bio = data.Bio
-        node.Avatar = data.Avatar
-        node.Username = data.Username
-        node.FriendCount = data.FriendCount
-        node.FollowerCount = data.FollowerCount
-        node.FriendIDs = data.FriendIDs
-        node.FollowerIDs = data.FollowerIDs
-
-        // save the node
-        if err := db.Put(node, nil); err != nil {
-            return err
-        }
-
-        return nil
-    }, false); err != nil {
+    if err := db.Put(node, nil); err != nil {
         return nil, err
     }
 
