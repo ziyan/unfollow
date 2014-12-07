@@ -20,7 +20,7 @@ func (twitter *Twitter) Search(query string) ([]*Tweet, error) {
         "result_type": {"recent"},
         "count":       {"100"},
     }
-    if err := twitter.Get("/1.1/search/tweets.json", values, &result); err != nil {
+    if err := twitter.Get(API_SERACH_TWEETS, values, &result); err != nil {
         return nil, err
     }
 
@@ -33,7 +33,7 @@ func (twitter *Twitter) Mentions() ([]*Tweet, error) {
     values := url.Values{
         "count": {"200"},
     }
-    if err := twitter.Get("/1.1/statuses/mentions_timeline.json", values, &tweets); err != nil {
+    if err := twitter.Get(API_STATUSES_MENTIONS_TIMELINE, values, &tweets); err != nil {
         return nil, err
     }
 

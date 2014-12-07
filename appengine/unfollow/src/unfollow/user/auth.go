@@ -70,6 +70,10 @@ func handleLogon(view *web.View) error {
         return err
     }
 
+    if err := twitter.PoolAccessToken(view.Context, accessToken); err != nil {
+        return err
+    }
+
     t := twitter.New(view.Context, accessToken)
     user, err := t.VerifyCredentials()
     if err != nil {

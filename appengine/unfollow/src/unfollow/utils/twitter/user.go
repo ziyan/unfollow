@@ -32,7 +32,7 @@ func (twitter *Twitter) VerifyCredentials() (*User, error) {
         "skip_status":      {"true"},
         "include_entities": {"false"},
     }
-    if err := twitter.Get("/1.1/account/verify_credentials.json", values, &user); err != nil {
+    if err := twitter.Get(API_ACCOUNT_VERIFY_CREDENTIALS, values, &user); err != nil {
         return nil, err
     }
 
@@ -48,11 +48,11 @@ func (twitter *Twitter) LookupUsers(ids []int64) ([]*User, error) {
 
     values := url.Values{
         "include_entities": {"false"},
-        "user_id": {strings.Join(strs, ",")},
+        "user_id":          {strings.Join(strs, ",")},
     }
 
     users := make([]*User, 0)
-    if err := twitter.Get("/1.1/users/lookup.json", values, &users); err != nil {
+    if err := twitter.Get(API_USERS_LOOKUP, values, &users); err != nil {
         return nil, err
     }
 
@@ -68,7 +68,7 @@ func (twitter *Twitter) Followers(id int64) ([]*User, error) {
         "count":   {"200"},
         "user_id": {strconv.FormatInt(id, 10)},
     }
-    if err := twitter.Get("/1.1/followers/list.json", values, &result); err != nil {
+    if err := twitter.Get(API_FOLLOWERS_LIST, values, &result); err != nil {
         return nil, err
     }
 
@@ -84,7 +84,7 @@ func (twitter *Twitter) Friends(id int64) ([]*User, error) {
         "count":   {"200"},
         "user_id": {strconv.FormatInt(id, 10)},
     }
-    if err := twitter.Get("/1.1/friends/list.json", values, &result); err != nil {
+    if err := twitter.Get(API_FRIENDS_LIST, values, &result); err != nil {
         return nil, err
     }
 
@@ -100,7 +100,7 @@ func (twitter *Twitter) FollowersIDs(id int64) ([]int64, error) {
         "count":   {"5000"},
         "user_id": {strconv.FormatInt(id, 10)},
     }
-    if err := twitter.Get("/1.1/followers/ids.json", values, &result); err != nil {
+    if err := twitter.Get(API_FOLLOWERS_IDS, values, &result); err != nil {
         return nil, err
     }
 
@@ -116,7 +116,7 @@ func (twitter *Twitter) FriendsIDs(id int64) ([]int64, error) {
         "count":   {"5000"},
         "user_id": {strconv.FormatInt(id, 10)},
     }
-    if err := twitter.Get("/1.1/friends/ids.json", values, &result); err != nil {
+    if err := twitter.Get(API_FRIENDS_IDS, values, &result); err != nil {
         return nil, err
     }
 

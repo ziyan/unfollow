@@ -3,6 +3,7 @@ package twitter
 import (
     "appengine"
     "appengine/urlfetch"
+    "appengine/taskqueue"
     "bytes"
     "encoding/json"
     "errors"
@@ -14,13 +15,44 @@ import (
     "net/url"
     "unfollow/settings"
     "unfollow/utils/security"
+    "strconv"
 )
 
 var (
     ErrCallbackUnconfirmed = errors.New("twitter: callback unconfirmed")
     ErrNotFound            = errors.New("twitter: not found")
     ErrRateLimitReached    = errors.New("twitter: rate limit reached")
+
+    API_ACCOUNT_VERIFY_CREDENTIALS = "account/verify_credentials"
+    API_USERS_LOOKUP = "users/lookup"
+    API_FOLLOWERS_LIST = "followers/list"
+    API_FRIENDS_LIST = "friends/list"
+    API_FOLLOWERS_IDS = "followers/ids"
+    API_FRIENDS_IDS = "friends/ids"
+    API_SERACH_TWEETS = "search/tweets"
+    API_STATUSES_MENTIONS_TIMELINE = "statuses/mentions_timeline"
+
+    API_PATHS = map[string]string{
+        API_ACCOUNT_VERIFY_CREDENTIALS: "/1.1/account/verify_credentials.json",
+        API_USERS_LOOKUP: "/1.1/users/lookup.json",
+        API_FOLLOWERS_LIST: "/1.1/followers/list.json",
+        API_FRIENDS_LIST: "/1.1/friends/list.json",
+        API_FOLLOWERS_IDS: "/1.1/followers/ids.json",
+        API_FRIENDS_IDS: "/1.1/friends/ids.json",
+        API_SERACH_TWEETS: "/1.1/search/tweets.json",
+        API_STATUSES_MENTIONS_TIMELINE: "/1.1/statuses/mentions_timeline.json",
+    }
+
+    API_POOL = []string{
+        API_USERS_LOOKUP,
+        API_FOLLOWERS_LIST,
+        API_FRIENDS_LIST,
+        API_FOLLOWERS_IDS,
+        API_FRIENDS_IDS,
+        API_SERACH_TWEETS,
+    }
 )
+
 
 func GetRequestToken(context appengine.Context, callback string) (*oauth.Token, error) {
 
@@ -157,76 +189,110 @@ func New(context appengine.Context, accessToken *oauth.Token) *Twitter {
     }
 }
 
-func (twitter *Twitter) Request(method, path string, values url.Values, payload, data interface{}) error {
+func (twitter *Twitter) Request(method, api string, values url.Values, payload, data interface{}) error {
 
-    url := url.URL{
-        Scheme:   "https",
-        Host:     "api.twitter.com",
-        Path:     path,
-        RawQuery: values.Encode(),
-    }
-    twitter.Context.Infof("twitter: request: %s %s", method, url.String())
+    // retry until we run out of tokens
+    for {
 
-    var body io.Reader = nil
-    if payload != nil {
-        buffer, err := json.Marshal(payload)
+        var task *taskqueue.Task
+
+        accessToken := twitter.AccessToken
+        if accessToken == nil {
+            // get access token from queue
+            var err error
+            if accessToken, task, err = twitter.LeaseAccessToken(api); err != nil {
+                return err
+            }
+        }
+
+        url := url.URL{
+            Scheme:   "https",
+            Host:     "api.twitter.com",
+            Path:     API_PATHS[api],
+            RawQuery: values.Encode(),
+        }
+        twitter.Context.Infof("twitter: request: %s %s", method, url.String())
+
+        var body io.Reader = nil
+        if payload != nil {
+            buffer, err := json.Marshal(payload)
+            if err != nil {
+                return err
+            }
+            body = bytes.NewReader(buffer)
+        }
+
+        request, err := http.NewRequest(method, url.String(), body)
         if err != nil {
             return err
         }
-        body = bytes.NewReader(buffer)
-    }
 
-    request, err := http.NewRequest(method, url.String(), body)
-    if err != nil {
-        return err
-    }
+        request.Header.Set("Accept", "application/json")
+        request.Form = values
 
-    request.Header.Set("Accept", "application/json")
-    request.Form = values
-
-    if err := oauth.SignRequest(request, settings.TWITTER_CONSUMER, twitter.AccessToken, security.GenerateRandomHexString(16)); err != nil {
-        return err
-    }
-
-    response, err := twitter.Client.Do(request)
-    if err != nil {
-        return err
-    }
-    defer response.Body.Close()
-
-    // report rate limit
-    twitter.Context.Infof("twitter: ratelimit: limit = %s, remain = %s, reset = %s",
-        response.Header.Get("X-Rate-Limit-Limit"),
-        response.Header.Get("X-Rate-Limit-Remaining"),
-        response.Header.Get("X-Rate-Limit-Reset"))
-
-    switch {
-    case response.StatusCode >= 200 && response.StatusCode < 300:
-    case response.StatusCode == 404:
-        return ErrNotFound
-    case response.StatusCode == 429:
-        return ErrRateLimitReached
-    default:
-        if buffer, err := ioutil.ReadAll(response.Body); err == nil {
-            twitter.Context.Errorf("twitter: error: %v", string(buffer))
-        }
-        return errors.New(fmt.Sprintf("twitter: server response status code is %d", response.StatusCode))
-    }
-
-    // parse the response
-    if data != nil {
-        if err := json.NewDecoder(response.Body).Decode(data); err != nil {
+        if err := oauth.SignRequest(request, settings.TWITTER_CONSUMER, accessToken, security.GenerateRandomHexString(16)); err != nil {
             return err
         }
+
+        response, err := twitter.Client.Do(request)
+        if err != nil {
+            return err
+        }
+        defer response.Body.Close()
+
+        // report rate limit
+        limit, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Limit"), 10, 64)
+        if err != nil {
+            return err
+        }
+
+        remaining, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Remaining"), 10, 64)
+        if err != nil {
+            return err
+        }
+
+        reset, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Reset"), 10, 64)
+        if err != nil {
+            return err
+        }
+
+        twitter.Context.Infof("twitter: ratelimit: limit = %d, remain = %d, reset = %d", limit, remaining, reset)
+
+        // release token back to the pool
+        if task != nil {
+            if err := twitter.ReleaseAccessToken(task, limit, remaining, reset); err != nil {
+                return err
+            }
+        }
+
+        switch {
+        case response.StatusCode >= 200 && response.StatusCode < 300:
+        case response.StatusCode == 404:
+            return ErrNotFound
+        case response.StatusCode == 429:
+            return ErrRateLimitReached
+        default:
+            if buffer, err := ioutil.ReadAll(response.Body); err == nil {
+                twitter.Context.Errorf("twitter: error: %v", string(buffer))
+            }
+            return errors.New(fmt.Sprintf("twitter: server response status code is %d", response.StatusCode))
+        }
+
+        // parse the response
+        if data != nil {
+            if err := json.NewDecoder(response.Body).Decode(data); err != nil {
+                return err
+            }
+        }
+
+        return nil
     }
-
-    return nil
 }
 
-func (twitter *Twitter) Get(path string, values url.Values, data interface{}) error {
-    return twitter.Request("GET", path, values, nil, data)
+func (twitter *Twitter) Get(api string, values url.Values, data interface{}) error {
+    return twitter.Request("GET", api, values, nil, data)
 }
 
-func (twitter *Twitter) Post(path string, values url.Values, payload, data interface{}) error {
-    return twitter.Request("POST", path, values, payload, data)
+func (twitter *Twitter) Post(api string, values url.Values, payload, data interface{}) error {
+    return twitter.Request("POST", api, values, payload, data)
 }

@@ -21,15 +21,15 @@ type Node struct {
     ScreenName string `datastore:"screen_name,noindex"`
     Avatar     string `datastore:"avatar,noindex"`
 
-    Verified bool `datastore:"verified,noindex"`
-    Protected bool `datastore:"Protected,noindex"`
-    Contributed bool `datastore:"contributed,noindex"`
-    Default bool `datastore:"default,noindex"`
-    DefaultAvatar bool `datastore:"default_avatar,noindex"`
-    Created int64 `datastore:"created,noindex"`
+    Verified      bool  `datastore:"verified,noindex"`
+    Protected     bool  `datastore:"Protected,noindex"`
+    Contributed   bool  `datastore:"contributed,noindex"`
+    Default       bool  `datastore:"default,noindex"`
+    DefaultAvatar bool  `datastore:"default_avatar,noindex"`
+    Created       int64 `datastore:"created,noindex"`
 
     TweetsCount int64 `datastore:"tweets_count,noindex"`
-    ListsCount int64 `datastore:"lists_count,noindex"`
+    ListsCount  int64 `datastore:"lists_count,noindex"`
 
     FriendsCount   int64 `datastore:"friends_count,noindex"`
     FollowersCount int64 `datastore:"followers_count,noindex"`
@@ -95,7 +95,7 @@ func GetNodeByID(db *db.Database, id int64) (*Node, error) {
     return GetNode(db, NodeKey(db, id))
 }
 
-func GetNodesByID(db *db.Database, ids []int64) ([]*Node, error) {
+func GetNodesByIDs(db *db.Database, ids []int64) ([]*Node, error) {
     keys := make([]*datastore.Key, 0, len(ids))
     for _, id := range ids {
         keys = append(keys, NodeKey(db, id))

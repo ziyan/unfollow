@@ -17,5 +17,5 @@ queue:
 - name: discover
   mode: pull
 
-- name: tokens
+- name: twitter
   mode: pull

@@ -3,14 +3,14 @@ package network
 import (
     "appengine"
     "appengine/taskqueue"
+    "time"
+    "unfollow/models"
     "unfollow/urls"
     "unfollow/utils/twitter"
-    "unfollow/models"
-    "time"
 )
 
 func Schedule(context appengine.Context) error {
-    url := urls.Reverse("task:network:discover")
+    url := urls.Reverse("task:network:discover:nodes")
     if _, err := taskqueue.Add(context, &taskqueue.Task{
         Path:   url.Path,
         Method: "POST",

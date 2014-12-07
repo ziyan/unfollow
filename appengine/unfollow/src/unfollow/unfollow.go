@@ -12,12 +12,12 @@
 package unfollow
 
 import (
+    _ "unfollow/network"
     _ "unfollow/page"
     _ "unfollow/task"
     _ "unfollow/urls"
     _ "unfollow/user"
     _ "unfollow/web"
-    _ "unfollow/network"
 )
 
 func init() {
