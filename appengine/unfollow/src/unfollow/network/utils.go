@@ -11,10 +11,7 @@ import (
 
 func Schedule(context appengine.Context) error {
     url := urls.Reverse("task:network:discover:nodes")
-    if _, err := taskqueue.Add(context, &taskqueue.Task{
-        Path:   url.Path,
-        Method: "POST",
-    }, "default"); err != nil {
+    if _, err := taskqueue.Add(context, &taskqueue.Task{Path: url.Path, Method: "POST"}, "default"); err != nil {
         return err
     }
     return nil

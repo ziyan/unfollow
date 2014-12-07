@@ -2,8 +2,8 @@ package twitter
 
 import (
     "appengine"
-    "appengine/urlfetch"
     "appengine/taskqueue"
+    "appengine/urlfetch"
     "bytes"
     "encoding/json"
     "errors"
@@ -13,9 +13,9 @@ import (
     "io/ioutil"
     "net/http"
     "net/url"
+    "strconv"
     "unfollow/settings"
     "unfollow/utils/security"
-    "strconv"
 )
 
 var (
@@ -23,23 +23,23 @@ var (
     ErrNotFound            = errors.New("twitter: not found")
     ErrRateLimitReached    = errors.New("twitter: rate limit reached")
 
-    API_ACCOUNT_VERIFY_CREDENTIALS = "account/verify_credentials"
-    API_USERS_LOOKUP = "users/lookup"
-    API_FOLLOWERS_LIST = "followers/list"
-    API_FRIENDS_LIST = "friends/list"
-    API_FOLLOWERS_IDS = "followers/ids"
-    API_FRIENDS_IDS = "friends/ids"
-    API_SERACH_TWEETS = "search/tweets"
-    API_STATUSES_MENTIONS_TIMELINE = "statuses/mentions_timeline"
+    API_ACCOUNT_VERIFY_CREDENTIALS = "account_verify_credentials"
+    API_USERS_LOOKUP               = "users_lookup"
+    API_FOLLOWERS_LIST             = "followers_list"
+    API_FRIENDS_LIST               = "friends_list"
+    API_FOLLOWERS_IDS              = "followers_ids"
+    API_FRIENDS_IDS                = "friends_ids"
+    API_SERACH_TWEETS              = "search_tweets"
+    API_STATUSES_MENTIONS_TIMELINE = "statuses_mentions_timeline"
 
     API_PATHS = map[string]string{
         API_ACCOUNT_VERIFY_CREDENTIALS: "/1.1/account/verify_credentials.json",
-        API_USERS_LOOKUP: "/1.1/users/lookup.json",
-        API_FOLLOWERS_LIST: "/1.1/followers/list.json",
-        API_FRIENDS_LIST: "/1.1/friends/list.json",
-        API_FOLLOWERS_IDS: "/1.1/followers/ids.json",
-        API_FRIENDS_IDS: "/1.1/friends/ids.json",
-        API_SERACH_TWEETS: "/1.1/search/tweets.json",
+        API_USERS_LOOKUP:               "/1.1/users/lookup.json",
+        API_FOLLOWERS_LIST:             "/1.1/followers/list.json",
+        API_FRIENDS_LIST:               "/1.1/friends/list.json",
+        API_FOLLOWERS_IDS:              "/1.1/followers/ids.json",
+        API_FRIENDS_IDS:                "/1.1/friends/ids.json",
+        API_SERACH_TWEETS:              "/1.1/search/tweets.json",
         API_STATUSES_MENTIONS_TIMELINE: "/1.1/statuses/mentions_timeline.json",
     }
 
@@ -52,7 +52,6 @@ var (
         API_SERACH_TWEETS,
     }
 )
-
 
 func GetRequestToken(context appengine.Context, callback string) (*oauth.Token, error) {
 

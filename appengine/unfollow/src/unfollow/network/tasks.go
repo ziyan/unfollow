@@ -8,6 +8,8 @@ import (
     "unfollow/task"
     "unfollow/utils/twitter"
     "unfollow/web"
+    "bytes"
+    "encoding/binary"
 )
 
 // discover a list of nodes
@@ -27,50 +29,53 @@ var _ = task.Handle("network:discover:nodes", "/network/discover", func(handler 
     // get the list of user ids
     ids := make([]int64, 0, len(tasks))
     for _, task := range tasks {
-
         // we use task name to deduplicate and store the user id
-        id, err := strconv.ParseInt(task.Name, 10, 64)
-        if err != nil {
-            panic(err)
+        var id int64
+        buffer := bytes.NewReader(task.Payload)
+        if err := binary.Read(buffer, binary.LittleEndian, &id); err != nil {
+            return nil, err
         }
-
         ids = append(ids, id)
     }
+    handler.Context.Infof("network: discover: ids = %v", ids)
 
     // lookup existing nodes
-    nodes, err := models.GetNodesByIDs(handler.Database, ids)
+    existings, err := models.GetNodesByIDs(handler.Database, ids)
     if err != nil {
         return nil, err
     }
 
-    missing := make([]int64, 0, len(nodes))
-    for _, node := range nodes {
-        if !node.Ok() {
-            missing = append(missing, node.ID())
-        }
+    index := make(map[int64]*models.Node)
+    for _, node := range existings {
+        index[node.ID()] = node
     }
 
-    if len(missing) > 0 {
+    // lookup the users
+    t := twitter.New(handler.Context, nil)
+    users, err := t.LookupUsers(ids)
+    if err != nil {
+        return nil, err
+    }
 
-        // lookup the users
-        t := twitter.New(handler.Context, nil)
-        users, err := t.LookupUsers(missing)
-        if err != nil {
-            return nil, err
+    // convert to internal structure node
+    nodes := make([]*models.Node, 0, len(users))
+    for _, user := range users {
+        node := TwitterUserToNode(user)
+        node.SetKey(models.NodeKey(handler.Database, user.ID))
+
+        // preserve the edges if the node already exists
+        existing := existing[user.ID]
+        if existing != nil && existing.Ok() {
+            node.FriendsIDs = existing.FriendsIDs
+            node.FollowersIDs = existing.FollowersIDs
         }
 
-        // convert to internal structure node
-        nodes := make([]*models.Node, 0, len(users))
-        for _, user := range users {
-            node := TwitterUserToNode(user)
-            node.SetKey(models.NodeKey(handler.Database, user.ID))
-            nodes = append(nodes, node)
-        }
+        nodes = append(nodes, node)
+    }
 
-        // save them all
-        if err := models.PutNodes(handler.Database, nodes); err != nil {
-            return nil, err
-        }
+    // save them all
+    if err := models.PutNodes(handler.Database, nodes); err != nil {
+        return nil, err
     }
 
     // delete the tasks leased
@@ -139,20 +144,34 @@ var _ = task.Handle("network:discover:node", "/network/discover/{id:[0-9]+}", fu
     }
 
     // queue discover
-    tasks := make([]*taskqueue.Task, 0, len(friends) + len(followers))
+    tasks := make([]*taskqueue.Task, 0, len(friends)+len(followers))
+
+    // discover friends
     for _, id := range friends {
+        buffer := new(bytes.Buffer)
+        if err := binary.Write(buffer, binary.LittleEndian, id); err != nil {
+            return nil, err
+        }
+
         task := &taskqueue.Task{
-            Name: strconv.FormatInt(id, 10),
-            Method: "PULL",
-            Payload: []byte{0},
+            Name:    strconv.FormatInt(id, 10),
+            Method:  "PULL",
+            Payload: buffer.Bytes(),
         }
         tasks = append(tasks, task)
     }
+
+    // discover followers
     for _, id := range followers {
+        buffer := new(bytes.Buffer)
+        if err := binary.Write(buffer, binary.LittleEndian, id); err != nil {
+            return nil, err
+        }
+
         task := &taskqueue.Task{
-            Name: strconv.FormatInt(id, 10),
-            Method: "PULL",
-            Payload: []byte{0},
+            Name:    strconv.FormatInt(id, 10),
+            Method:  "PULL",
+            Payload: buffer.Bytes(),
         }
         tasks = append(tasks, task)
     }

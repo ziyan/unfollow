@@ -2,16 +2,16 @@ package twitter
 
 import (
     "appengine"
-    "crypto/sha1"
-    "encoding/hex"
     "appengine/taskqueue"
     "github.com/ziyan/oauth"
     "time"
+    "crypto/sha1"
+    "encoding/hex"
 )
 
 func (twitter *Twitter) LeaseAccessToken(api string) (*oauth.Token, *taskqueue.Task, error) {
     // lease a token
-    tasks, err := taskqueue.LeaseByTag(twitter.Context, 1, "twitter", 15 * 60, api)
+    tasks, err := taskqueue.LeaseByTag(twitter.Context, 1, "twitter", 15*60, api)
     if err != nil {
         return nil, nil, err
     }
@@ -55,19 +55,20 @@ func (twitter *Twitter) ReleaseAccessToken(task *taskqueue.Task, limit, remainin
 
 func PoolAccessToken(context appengine.Context, token *oauth.Token) error {
     encoded := token.Encode()
+
+    hasher := sha1.New()
+    hasher.Write([]byte(encoded))
+    hash := hex.EncodeToString(hasher.Sum(nil))
+
     payload := []byte(encoded)
     tasks := make([]*taskqueue.Task, 0, len(API_POOL))
 
     for _, api := range API_POOL {
-        hasher := sha1.New()
-        hasher.Write([]byte(encoded))
-        hasher.Write([]byte(api))
-
         task := &taskqueue.Task{
             Payload: payload,
             Method:  "PULL",
-            Name: hex.EncodeToString(hasher.Sum(nil)),
-            Tag: api,
+            Name:    hash + "_" + api,
+            Tag:     api,
         }
         tasks = append(tasks, task)
     }
