@@ -21,11 +21,21 @@ type Node struct {
     ScreenName string `datastore:"screen_name,noindex"`
     Avatar     string `datastore:"avatar,noindex"`
 
-    FriendsCount   int64 `datastore:"friend_count,noindex"`
-    FollowersCount int64 `datastore:"follower_count,noindex"`
+    Verified bool `datastore:"verified,noindex"`
+    Protected bool `datastore:"Protected,noindex"`
+    Contributed bool `datastore:"contributed,noindex"`
+    Default bool `datastore:"default,noindex"`
+    DefaultAvatar bool `datastore:"default_avatar,noindex"`
+    Created int64 `datastore:"created,noindex"`
 
-    FriendsIDs   []int64 `datastore:"friends_ids,noindex"`
-    FollowersIDs []int64 `datastore:"followers_ids,noindex"`
+    TweetsCount int64 `datastore:"tweets_count,noindex"`
+    ListsCount int64 `datastore:"lists_count,noindex"`
+
+    FriendsCount   int64 `datastore:"friends_count,noindex"`
+    FollowersCount int64 `datastore:"followers_count,noindex"`
+
+    FriendsIDs   []int64 `datastore:"friendss_ids,noindex"`
+    FollowersIDs []int64 `datastore:"followerss_ids,noindex"`
 }
 
 func (u *Node) Key() *datastore.Key {
@@ -108,4 +118,17 @@ func PutNode(db *db.Database, key *datastore.Key, data *Node) (*Node, error) {
     }
 
     return node, nil
+}
+
+func PutNodes(d *db.Database, nodes []*Node) error {
+    entities := make([]db.Entity, 0, len(nodes))
+    for _, node := range nodes {
+        entities = append(entities, node)
+    }
+
+    if err := d.PutMulti(entities, nil); err != nil {
+        return err
+    }
+
+    return nil
 }

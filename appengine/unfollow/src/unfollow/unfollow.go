@@ -17,6 +17,7 @@ import (
     _ "unfollow/urls"
     _ "unfollow/user"
     _ "unfollow/web"
+    _ "unfollow/network"
 )
 
 func init() {

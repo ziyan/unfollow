@@ -14,3 +14,8 @@ queue:
     max_backoff_seconds: 86400
     max_doublings: 16
 
+- name: discover
+  mode: pull
+
+- name: tokens
+  mode: pull

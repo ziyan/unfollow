@@ -19,6 +19,7 @@ import (
 var (
     ErrCallbackUnconfirmed = errors.New("twitter: callback unconfirmed")
     ErrNotFound            = errors.New("twitter: not found")
+    ErrRateLimitReached    = errors.New("twitter: rate limit reached")
 )
 
 func GetRequestToken(context appengine.Context, callback string) (*oauth.Token, error) {
@@ -203,6 +204,8 @@ func (twitter *Twitter) Request(method, path string, values url.Values, payload,
     case response.StatusCode >= 200 && response.StatusCode < 300:
     case response.StatusCode == 404:
         return ErrNotFound
+    case response.StatusCode == 429:
+        return ErrRateLimitReached
     default:
         if buffer, err := ioutil.ReadAll(response.Body); err == nil {
             twitter.Context.Errorf("twitter: error: %v", string(buffer))
