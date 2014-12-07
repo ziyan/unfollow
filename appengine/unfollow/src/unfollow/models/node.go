@@ -109,15 +109,12 @@ func GetNodesByIDs(db *db.Database, ids []int64) ([]*Node, error) {
     return nodes, nil
 }
 
-func PutNode(db *db.Database, key *datastore.Key, data *Node) (*Node, error) {
-    node := &Node{}
-    node.SetKey(key)
-
+func PutNode(db *db.Database, node *Node) error {
     if err := db.Put(node, nil); err != nil {
-        return nil, err
+        return err
     }
 
-    return node, nil
+    return nil
 }
 
 func PutNodes(d *db.Database, nodes []*Node) error {

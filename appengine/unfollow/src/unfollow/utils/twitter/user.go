@@ -40,7 +40,22 @@ func (twitter *Twitter) VerifyCredentials() (*User, error) {
     return &user, nil
 }
 
-func (twitter *Twitter) LookupUsers(ids []int64) ([]*User, error) {
+func (twitter *Twitter) User(id int64) (*User, error) {
+    values := url.Values{
+        "include_entities": {"false"},
+        "user_id":          {strconv.FormatInt(id, 10)},
+    }
+
+    user := User{}
+    if err := twitter.Get(API_USERS_SHOW, values, &user); err != nil {
+        return nil, err
+    }
+
+    twitter.Context.Infof("twitter: user: %v", user)
+    return &user, nil
+}
+
+func (twitter *Twitter) Users(ids []int64) ([]*User, error) {
     strs := make([]string, 0, len(ids))
     for _, id := range ids {
         strs = append(strs, strconv.FormatInt(id, 10))

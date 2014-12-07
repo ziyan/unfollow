@@ -24,6 +24,7 @@ var (
     ErrRateLimitReached    = errors.New("twitter: rate limit reached")
 
     API_ACCOUNT_VERIFY_CREDENTIALS = "account_verify_credentials"
+    API_USERS_SHOW                 = "users_show"
     API_USERS_LOOKUP               = "users_lookup"
     API_FOLLOWERS_LIST             = "followers_list"
     API_FRIENDS_LIST               = "friends_list"
@@ -34,6 +35,7 @@ var (
 
     API_PATHS = map[string]string{
         API_ACCOUNT_VERIFY_CREDENTIALS: "/1.1/account/verify_credentials.json",
+        API_USERS_SHOW:                 "/1.1/users/show.json",
         API_USERS_LOOKUP:               "/1.1/users/lookup.json",
         API_FOLLOWERS_LIST:             "/1.1/followers/list.json",
         API_FRIENDS_LIST:               "/1.1/friends/list.json",
@@ -44,6 +46,7 @@ var (
     }
 
     API_POOL = []string{
+        API_USERS_SHOW,
         API_USERS_LOOKUP,
         API_FOLLOWERS_LIST,
         API_FRIENDS_LIST,
