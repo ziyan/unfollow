@@ -14,6 +14,7 @@ UNFOLLOW_SOURCES = \
 	unfollow/unfollow.locale.coffee.js \
 	unfollow/unfollow.utils.coffee.js \
 	unfollow/unfollow.ajax.coffee.js \
+	unfollow/unfollow.network.coffee.js \
 
 .PHONY: all
 all: debug

@@ -8,9 +8,7 @@
           %span.icon-bar<>
           %span.icon-bar<>
           %span.icon-bar<>
-        %a.navbar-brand{href: "{{ if .Session.User }}{{ url \"page:home\" }}{{ else }}{{ url \"page:welcome\" }}{{ end }}"}<>
-          %i<>
-          %span<> {{ .GetText "Un<b>follow</b>" | safe }}
+        %a.navbar-brand{href: "{{ if .Session.User }}{{ url \"page:home\" }}{{ else }}{{ url \"page:welcome\" }}{{ end }}"}<> {{ .GetText "Un<b>follow</b>" | safe }}
       .navbar-collapse.collapse<> {{ template "nav" . }}{{ template "status" . }}
   .content<> {{ template "content" . }}
 {{ template "footer" . }}{{ template "settings" . }}{{ end }}

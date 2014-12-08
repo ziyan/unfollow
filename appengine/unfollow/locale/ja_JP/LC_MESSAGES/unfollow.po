@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unfollow 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-11-10 00:47-0800\n"
+"POT-Creation-Date: 2014-12-08 01:49-0800\n"
 "PO-Revision-Date: 2014-04-29 20:32-0700\n"
 "Last-Translator: Ziyan Zhou <zhou@ziyan.info>\n"
 "Language-Team: Japanese\n"
@@ -24,10 +24,6 @@ msgstr ""
 msgid "Features"
 msgstr ""
 
-#: ../src/unfollow/user/ajaxs.go:29
-msgid "Hello world!"
-msgstr ""
-
 #: ../html/inc/footer.html.haml:23
 msgid "Language"
 msgstr ""
@@ -40,11 +36,11 @@ msgstr ""
 msgid "Toggle navigation"
 msgstr ""
 
-#: ../html/base.html.haml:13
+#: ../html/base.html.haml:11
 #, fuzzy
 msgid "Un<b>follow</b>"
 msgstr "Unfollow"
 
-#: ../src/unfollow/web/view.go:75 ../src/unfollow/user/ajaxs.go:29
+#: ../src/unfollow/web/view.go:75
 msgid "Unfollow"
 msgstr "Unfollow"
