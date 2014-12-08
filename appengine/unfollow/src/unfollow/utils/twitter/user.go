@@ -47,7 +47,11 @@ func (twitter *Twitter) User(id int64) (*User, error) {
     }
 
     user := User{}
-    if err := twitter.Get(API_USERS_SHOW, values, &user); err != nil {
+    err := twitter.Get(API_USERS_SHOW, values, &user)
+    if err == ErrNotFound {
+        return nil, nil
+    }
+    if err != nil {
         return nil, err
     }
 
@@ -67,7 +71,11 @@ func (twitter *Twitter) Users(ids []int64) ([]*User, error) {
     }
 
     users := make([]*User, 0)
-    if err := twitter.Get(API_USERS_LOOKUP, values, &users); err != nil {
+    err := twitter.Get(API_USERS_LOOKUP, values, &users)
+    if err == ErrNotFound {
+        return nil, nil
+    }
+    if err != nil {
         return nil, err
     }
 

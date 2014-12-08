@@ -14,6 +14,7 @@ import (
     "net/http"
     "net/url"
     "strconv"
+    "time"
     "unfollow/settings"
     "unfollow/utils/security"
 )
@@ -185,8 +186,14 @@ type Twitter struct {
 
 func New(context appengine.Context, accessToken *oauth.Token) *Twitter {
     return &Twitter{
-        Context:     context,
-        Client:      urlfetch.Client(context),
+        Context: context,
+        Client: &http.Client{
+            Transport: &urlfetch.Transport{
+                Context:                       context,
+                Deadline:                      time.Second * 60,
+                AllowInvalidServerCertificate: false,
+            },
+        },
         AccessToken: accessToken,
     }
 }

@@ -13,29 +13,29 @@ type Node struct {
     key *datastore.Key `datastore:"-"`
     ok  bool           `datastore:"-"`
 
-    Name        string `datastore:"name,noindex"`
-    Description string `datastore:"description,noindex"`
-    Location    string `datastore:"location,noindex"`
-    Website     string `datastore:"website,noindex"`
+    Name        string `datastore:"name,noindex" json:"name"`
+    Description string `datastore:"description,noindex" json:"description"`
+    Location    string `datastore:"location,noindex" json:"location"`
+    Website     string `datastore:"website,noindex" json:"website"`
 
-    ScreenName string `datastore:"screen_name,noindex"`
-    Avatar     string `datastore:"avatar,noindex"`
+    ScreenName string `datastore:"screen_name,noindex" json:"screen_name"`
+    Avatar     string `datastore:"avatar,noindex" json:"avatar"`
 
-    Verified      bool  `datastore:"verified,noindex"`
-    Protected     bool  `datastore:"Protected,noindex"`
-    Contributed   bool  `datastore:"contributed,noindex"`
-    Default       bool  `datastore:"default,noindex"`
-    DefaultAvatar bool  `datastore:"default_avatar,noindex"`
-    Created       int64 `datastore:"created,noindex"`
+    Verified      bool  `datastore:"verified,noindex" json:"verified"`
+    Protected     bool  `datastore:"protected,noindex" json:"protected"`
+    Contributed   bool  `datastore:"contributed,noindex" json:"contributed"`
+    Default       bool  `datastore:"default,noindex" json:"default"`
+    DefaultAvatar bool  `datastore:"default_avatar,noindex" json:"default_avatar"`
+    Created       int64 `datastore:"created,noindex" json:"created"`
 
-    TweetsCount int64 `datastore:"tweets_count,noindex"`
-    ListsCount  int64 `datastore:"lists_count,noindex"`
+    TweetsCount int64 `datastore:"tweets_count,noindex" json:"tweets_count"`
+    ListsCount  int64 `datastore:"lists_count,noindex" json:"lists_count"`
 
-    FriendsCount   int64 `datastore:"friends_count,noindex"`
-    FollowersCount int64 `datastore:"followers_count,noindex"`
+    FriendsCount   int64 `datastore:"friends_count,noindex" json:"friends_count"`
+    FollowersCount int64 `datastore:"followers_count,noindex" json:"followers_count"`
 
-    FriendsIDs   []int64 `datastore:"friendss_ids,noindex"`
-    FollowersIDs []int64 `datastore:"followerss_ids,noindex"`
+    FriendsIDs   []int64 `datastore:"friends_ids,noindex" json:"friends_ids"`
+    FollowersIDs []int64 `datastore:"followers_ids,noindex" json:"followers_ids"`
 }
 
 func (u *Node) Key() *datastore.Key {

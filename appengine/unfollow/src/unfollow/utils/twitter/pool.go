@@ -3,10 +3,10 @@ package twitter
 import (
     "appengine"
     "appengine/taskqueue"
-    "github.com/ziyan/oauth"
-    "time"
     "crypto/sha1"
     "encoding/hex"
+    "github.com/ziyan/oauth"
+    "time"
 )
 
 func (twitter *Twitter) LeaseAccessToken(api string) (*oauth.Token, *taskqueue.Task, error) {

@@ -8,6 +8,7 @@ UNFOLLOW_SOURCES = \
 	jquery/jquery.imagesloaded.js \
 	jquery/jquery.pjax.coffee.js \
 	bootstrap/bootstrap.js \
+	d3.js \
 	require.js \
 	unfollow/unfollow.coffee.js \
 	unfollow/unfollow.locale.coffee.js \

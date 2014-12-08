@@ -28,7 +28,6 @@ unfollow.namespace 'unfollow.ajax', (exports) ->
     call_function 'GET', func, data, callback
 
   exports.post = (func, data, callback) ->
-    $.pjax.clear()
     call_function 'POST', func, data, callback
 
     #

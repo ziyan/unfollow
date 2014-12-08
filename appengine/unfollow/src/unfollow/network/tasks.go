@@ -2,20 +2,18 @@ package network
 
 import (
     "appengine/taskqueue"
-    "strconv"
-    "unfollow/models"
-    "unfollow/task"
-    "unfollow/utils/twitter"
-    "unfollow/web"
     "bytes"
     "encoding/binary"
+    "strconv"
+    "unfollow/task"
+    "unfollow/web"
 )
 
 // discover a list of nodes
-var _ = task.Handle("network:discover:nodes", "/network/discover", func(handler *web.Handler) (interface{}, error) {
+var _ = task.Handle("network:nodes", "/network", func(handler *web.Handler) (interface{}, error) {
 
     // lease a bunch of tasks
-    tasks, err := taskqueue.Lease(handler.Context, 100, "discover", 60)
+    tasks, err := taskqueue.Lease(handler.Context, 100, "network", 60)
     if err != nil {
         return nil, err
     }
@@ -36,34 +34,19 @@ var _ = task.Handle("network:discover:nodes", "/network/discover", func(handler 
         }
         ids = append(ids, id)
     }
-    handler.Context.Infof("network: discover: ids = %v", ids)
+    handler.Context.Infof("network: ids = %v", ids)
 
-    // lookup the users
-    t := twitter.New(handler.Context, nil)
-    users, err := t.Users(ids)
-    if err != nil {
-        return nil, err
-    }
-
-    // convert to internal structure node
-    nodes := make([]*models.Node, 0, len(users))
-    for _, user := range users {
-        node := TwitterUserToNode(user)
-        node.SetKey(models.NodeKey(handler.Database, user.ID))
-        nodes = append(nodes, node)
-    }
-
-    if err := UpdateNodes(handler.Database, nodes); err != nil {
+    if _, err := DiscoverNodes(handler.Database, ids); err != nil {
         return nil, err
     }
 
     // delete the tasks leased
-    if err := taskqueue.DeleteMulti(handler.Context, tasks, "discover"); err != nil {
+    if err := taskqueue.DeleteMulti(handler.Context, tasks, "network"); err != nil {
         return nil, err
     }
 
     // schedule a callback to this task
-    if err := Schedule(handler.Context); err != nil {
+    if err := ScheduleDiscoverNodes(handler.Context); err != nil {
         return nil, err
     }
 
@@ -71,7 +54,7 @@ var _ = task.Handle("network:discover:nodes", "/network/discover", func(handler 
 })
 
 // discover edges for a particular node
-var _ = task.Handle("network:discover:node", "/network/discover/{id:[0-9]+}", func(handler *web.Handler) (interface{}, error) {
+var _ = task.Handle("network:node", "/network/{id:[0-9]+}", func(handler *web.Handler) (interface{}, error) {
 
     // user id must be an integer
     id, err := strconv.ParseInt(handler.Variables["id"], 10, 64)
