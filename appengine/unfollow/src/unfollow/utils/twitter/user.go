@@ -18,6 +18,7 @@ type User struct {
     FriendsCount         int64  `json:"friends_count"`
     FollowersCount       int64  `json:"followers_count"`
     ListedCount          int64  `json:"listed_count"`
+    FavouritesCount      int64  `json:"favourites_count"`
     Verified             bool   `json:"verified"`
     Protected            bool   `json:"protected"`
     ContributorsEnabled  bool   `json:"contributors_enabled"`

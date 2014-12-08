@@ -45,8 +45,8 @@ var _ = ajax.Get("network:nodes", "/network/nodes", func(view *web.View) (interf
     }
 
     return struct {
-        Nodes map[string]*models.Node `json:"nodes"`
-        Queued bool `json:"queued"`
+        Nodes  map[string]*models.Node `json:"nodes"`
+        Queued bool                    `json:"queued"`
     }{results, queued}, nil
 })
 
@@ -83,8 +83,8 @@ var _ = ajax.Get("network:node", "/network/node", func(view *web.View) (interfac
     }
 
     return struct {
-        ID   int64        `json:"id"`
-        Node *models.Node `json:"node"`
-        Queued bool `json:"queued"`
+        ID     int64        `json:"id"`
+        Node   *models.Node `json:"node"`
+        Queued bool         `json:"queued"`
     }{data.ID, node, queued}, nil
 })

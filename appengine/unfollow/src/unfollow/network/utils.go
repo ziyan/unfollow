@@ -94,6 +94,7 @@ func TwitterUserToNode(user *twitter.User) *models.Node {
     node.FollowersCount = user.FollowersCount
     node.ListsCount = user.ListedCount
     node.TweetsCount = user.StatusesCount
+    node.FavoritesCount = user.FavouritesCount
     node.Verified = user.Verified
     node.Protected = user.Protected
     node.Contributed = user.ContributorsEnabled

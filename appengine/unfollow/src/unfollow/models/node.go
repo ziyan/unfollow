@@ -28,8 +28,9 @@ type Node struct {
     DefaultAvatar bool  `datastore:"default_avatar,noindex" json:"default_avatar"`
     Created       int64 `datastore:"created,noindex" json:"created"`
 
-    TweetsCount int64 `datastore:"tweets_count,noindex" json:"tweets_count"`
-    ListsCount  int64 `datastore:"lists_count,noindex" json:"lists_count"`
+    TweetsCount    int64 `datastore:"tweets_count,noindex" json:"tweets_count"`
+    ListsCount     int64 `datastore:"lists_count,noindex" json:"lists_count"`
+    FavoritesCount int64 `datastore:"favorites_count,noindex" json:"favorites_count"`
 
     FriendsCount   int64 `datastore:"friends_count,noindex" json:"friends_count"`
     FollowersCount int64 `datastore:"followers_count,noindex" json:"followers_count"`
