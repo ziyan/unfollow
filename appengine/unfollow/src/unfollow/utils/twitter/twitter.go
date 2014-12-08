@@ -199,10 +199,7 @@ func New(context appengine.Context, accessToken *oauth.Token) *Twitter {
 }
 
 func (twitter *Twitter) Request(method, api string, values url.Values, payload, data interface{}) error {
-
-    // retry until we run out of tokens
     for {
-
         var task *taskqueue.Task
 
         accessToken := twitter.AccessToken
@@ -252,17 +249,17 @@ func (twitter *Twitter) Request(method, api string, values url.Values, payload, 
         // report rate limit
         limit, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Limit"), 10, 64)
         if err != nil {
-            return err
+            limit = 15
         }
 
         remaining, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Remaining"), 10, 64)
         if err != nil {
-            return err
+            remaining = 0
         }
 
         reset, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Reset"), 10, 64)
         if err != nil {
-            return err
+            reset = time.Now().Unix() + 15 * 60
         }
 
         twitter.Context.Infof("twitter: ratelimit: limit = %d, remain = %d, reset = %d", limit, remaining, reset)
@@ -279,6 +276,10 @@ func (twitter *Twitter) Request(method, api string, values url.Values, payload, 
         case response.StatusCode == 404:
             return ErrNotFound
         case response.StatusCode == 429:
+            if twitter.AccessToken == nil {
+                // try a different token
+                continue
+            }
             return ErrRateLimitReached
         default:
             if buffer, err := ioutil.ReadAll(response.Body); err == nil {

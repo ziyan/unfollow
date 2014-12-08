@@ -141,8 +141,17 @@ func UpdateNodes(db *db.Database, nodes []*models.Node) error {
     }
 
     // save them all
-    if err := models.PutNodes(db, uniques); err != nil {
-        return err
+    for len(uniques) > 0 {
+        size := len(uniques)
+        if size > 25 {
+            size = 25
+        }
+        batch := uniques[:size]
+        uniques = uniques[size:]
+
+        if err := models.PutNodes(db, batch); err != nil {
+            return err
+        }
     }
 
     return nil
@@ -177,27 +186,6 @@ func DiscoverNodes(db *db.Database, ids []int64) ([]*models.Node, error) {
 func DiscoverNode(db *db.Database, id int64) (*models.Node, error) {
     t := twitter.New(db.Context, nil)
 
-    // discover recent friends and followers
-    friendsIDs, err := t.FriendsIDs(id)
-    if err != nil {
-        return nil, err
-    }
-
-    followersIDs, err := t.FollowersIDs(id)
-    if err != nil {
-        return nil, err
-    }
-
-    friends, err := t.Friends(id)
-    if err != nil {
-        return nil, err
-    }
-
-    followers, err := t.Followers(id)
-    if err != nil {
-        return nil, err
-    }
-
     user, err := t.User(id)
     if err != nil {
         return nil, err
@@ -211,10 +199,38 @@ func DiscoverNode(db *db.Database, id int64) (*models.Node, error) {
 
     node := TwitterUserToNode(user)
     node.SetKey(models.NodeKey(db, id))
-    node.FriendsIDs = friendsIDs
-    node.FollowersIDs = followersIDs
+
+    if !node.Protected {
+        // discover recent friends and followers
+        friendsIDs, err := t.FriendsIDs(id)
+        if err != nil {
+            return nil, err
+        }
+
+        followersIDs, err := t.FollowersIDs(id)
+        if err != nil {
+            return nil, err
+        }
+
+        node.FriendsIDs = friendsIDs
+        node.FollowersIDs = followersIDs
+    }
 
     if err := models.PutNode(db, node); err != nil {
+        return nil, err
+    }
+
+    if node.Protected {
+        return node, nil
+    }
+
+    friends, err := t.Friends(id)
+    if err != nil {
+        return nil, err
+    }
+
+    followers, err := t.Followers(id)
+    if err != nil {
         return nil, err
     }
 
