@@ -7,7 +7,7 @@ queue:
   mode: push
   rate: 100/s
   bucket_size: 100
-  max_concurrent_requests: 1
+  max_concurrent_requests: 5
   retry_parameters:
     task_age_limit: 365d
     min_backoff_seconds: 5

@@ -72,8 +72,8 @@ var _ = ajax.Get("network:node", "/network/node", func(view *web.View) (interfac
     queued := false
     if data.Queue {
         if node == nil ||
-            (node.FollowersCount > 0 && len(node.FollowersIDs) == 0) ||
-            (node.FriendsCount > 0 && len(node.FriendsIDs) == 0) {
+            (!node.Protected && node.FollowersCount > 0 && len(node.FollowersIDs) == 0) ||
+            (!node.Protected && node.FriendsCount > 0 && len(node.FriendsIDs) == 0) {
             if err := ScheduleDiscoverNode(view.Context, data.ID); err != nil {
                 return nil, err
             }

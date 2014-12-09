@@ -1,28 +1,24 @@
 {{ define "footer" }}
 .footer<>
-  .footer-content<>
-    .container<>
-  .footer-bottom<>
-    .container<>
-      .footer-tree<>
-      .footer-menu<>
-        .row<>
-          .col-sm-2<>
-            %ul<>
-              %li<>
-                %strong<> {{ .GetText "Hello" }}
-              %li<>
-                %a{href: "{{ url \"page:welcome\" }}"}<> {{ .GetText "Welcome" }}
-              %li<>
-                %a{href: "{{ url \"page:about\" }}"}<> {{ .GetText "About" }}
-              %li<>
-                %a{href: "#"}<> {{ .GetText "Contact" }}
-          .col-sm-2<>
-            %ul<>
-              %li<>
-                %strong<> {{ .GetText "Language" }}
-              {{ range $locale, $language := .Settings.LOCALES }}
-              %li<>
-                %a.js-locale{href: "#", "data-locale" => "{{ $locale }}"}<> {{ $language }}
-              {{ end }}
+  .container<>
+    .footer-menu<>
+      .row<>
+        .col-sm-2<>
+          %ul<>
+            %li<>
+              %strong<> {{ .GetText "Hello" }}
+            %li<>
+              %a{href: "{{ url \"page:welcome\" }}"}<> {{ .GetText "Welcome" }}
+            %li<>
+              %a{href: "{{ url \"page:about\" }}"}<> {{ .GetText "About" }}
+            %li<>
+              %a{href: "#"}<> {{ .GetText "Contact" }}
+        .col-sm-2<>
+          %ul<>
+            %li<>
+              %strong<> {{ .GetText "Language" }}
+            {{ range $locale, $language := .Settings.LOCALES }}
+            %li<>
+              %a.js-locale{href: "#", "data-locale" => "{{ $locale }}"}<> {{ $language }}
+            {{ end }}
 {{ end }}
