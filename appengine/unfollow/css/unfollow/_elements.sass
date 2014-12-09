@@ -9,6 +9,13 @@ html
   background: white
   height: 100%
   -webkit-font-smoothing: antialiased
+  overflow: hidden
+  overflow-y: visible
+
+h1, h2, h3, h4, h5, h6
+  font-weight: normal
+  margin: 0
+  padding: 0
 
 img
   display: inline-block
@@ -20,7 +27,7 @@ body
   background: transparent
   font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
   font-weight: 400
-  padding-top: 50px
+  padding-top: 57px
 
 a
   outline: none
@@ -83,16 +90,114 @@ p.error
   left: -10000%
 
 //
-//
+// modal
 //
 
-.editor
-  position: relative
-  height: 500px
-  #editor
-    position: absolute
-    top: 0
-    left: 0
-    right: 0
-    height: 500px
-    font-size: 14pt
+.modal-backdrop
+  position: fixed
+  background: transparent
+  +background-image(radial-gradient(rgba(0,0,0,0.25), rgba(0,0,0,0.75)))
+
+.modal
+  &.modal-slim
+    .modal-dialog
+      width: 420px
+
+  &.modal-small
+    .modal-dialog
+      width: 360px
+
+  .modal-dialog
+    max-width: 100%
+    .modal-content
+      position: relative
+      border: none
+      background: white
+      +border-radius(0)
+      +background-image(linear-gradient(#FFFFFF, #FAFAFA))
+      +box-shadow(rgba(0,0,0,0.1) 0 0 1px, rgba(0,0,0,0.31) 0 2px 6px)
+      .close
+        display: block
+        position: absolute
+        z-index: 1
+        top: 0
+        right: 0
+        padding: 10px
+        text-align: center
+        width: 34px
+        height: 34px
+        font-size: 14px
+        line-height: 14px
+        outline: none
+        +transition-property(opacity)
+        +transition-duration(0.2s)
+        i
+          display: block
+          margin: 0
+      .modal-header
+        position: relative
+        background: transparent !important
+        padding: 15px
+      .modal-body
+        position: relative
+        margin: 0
+        border: none
+        padding: 15px
+        max-height: none
+        overflow: auto
+        background: transparent
+        .form-group:last-child
+          margin-bottom: 0
+      .modal-footer
+        position: relative
+        background: transparent !important
+        margin-top: 0
+        padding: 15px
+      .modal-headline
+        padding: 25px !important
+        text-align: center
+        > i, > img
+          display: inline-block
+          margin: 25px
+        > h2
+          display: block
+          line-height: 24px
+          font-size: 18px
+        > p:last-child
+          margin-bottom: 0
+
+      input.form-control[type="text"],
+      input.form-control[type="tel"],
+      input.form-control[type="email"],
+      input.form-control[type="password"],
+        padding: 8px
+        font-size: 16px
+        height: auto
+        margin-bottom: 0
+        vertical-align: center
+        width: 100%
+        +box-sizing(border-box)
+
+      textarea.form-control
+        resize: none
+        font-size: 16px
+        padding: 8px
+        min-height: 4em
+        margin-bottom: 0
+        width: 100%
+        +box-sizing(border-box)
+
+      .form-horizontal .control-label
+        padding-top: 10px
+
+body.modal-open
+  overflow: hidden
+  overflow-y: hidden
+  .modal-fix
+    overflow: hidden
+    overflow-y: scroll
+
+.modal
+  top: 0 !important
+  overflow: hidden
+  overflow-y: scroll

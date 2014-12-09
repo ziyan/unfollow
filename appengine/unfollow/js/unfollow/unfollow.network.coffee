@@ -3,356 +3,39 @@ unfollow.namespace 'unfollow.network', (exports) ->
 
   class Network
     constructor: (@network) ->
-      @nodes = [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {}
-      ]
-      @links = [
-        {source:1, target:0},
-        {source:2, target:0},
-        {source:3, target:0},
-        {source:3, target:2},
-        {source:4, target:0},
-        {source:5, target:0},
-        {source:6, target:0},
-        {source:7, target:0},
-        {source:8, target:0},
-        {source:9, target:0},
-        {source:11, target:10},
-        {source:11, target:3},
-        {source:11, target:2},
-        {source:11, target:0},
-        {source:12, target:11},
-        {source:13, target:11},
-        {source:14, target:11},
-        {source:15, target:11},
-        {source:17, target:16},
-        {source:18, target:16},
-        {source:18, target:17},
-        {source:19, target:16},
-        {source:19, target:17},
-        {source:19, target:18},
-        {source:20, target:16},
-        {source:20, target:17},
-        {source:20, target:18},
-        {source:20, target:19},
-        {source:21, target:16},
-        {source:21, target:17},
-        {source:21, target:18},
-        {source:21, target:19},
-        {source:21, target:20},
-        {source:22, target:16},
-        {source:22, target:17},
-        {source:22, target:18},
-        {source:22, target:19},
-        {source:22, target:20},
-        {source:22, target:21},
-        {source:23, target:16},
-        {source:23, target:17},
-        {source:23, target:18},
-        {source:23, target:19},
-        {source:23, target:20},
-        {source:23, target:21},
-        {source:23, target:22},
-        {source:23, target:12},
-        {source:23, target:11},
-        {source:24, target:23},
-        {source:24, target:11},
-        {source:25, target:24},
-        {source:25, target:23},
-        {source:25, target:11},
-        {source:26, target:24},
-        {source:26, target:11},
-        {source:26, target:16},
-        {source:26, target:25},
-        {source:27, target:11},
-        {source:27, target:23},
-        {source:27, target:25},
-        {source:27, target:24},
-        {source:27, target:26},
-        {source:28, target:11},
-        {source:28, target:27},
-        {source:29, target:23},
-        {source:29, target:27},
-        {source:29, target:11},
-        {source:30, target:23},
-        {source:31, target:30},
-        {source:31, target:11},
-        {source:31, target:23},
-        {source:31, target:27},
-        {source:32, target:11},
-        {source:33, target:11},
-        {source:33, target:27},
-        {source:34, target:11},
-        {source:34, target:29},
-        {source:35, target:11},
-        {source:35, target:34},
-        {source:35, target:29},
-        {source:36, target:34},
-        {source:36, target:35},
-        {source:36, target:11},
-        {source:36, target:29},
-        {source:37, target:34},
-        {source:37, target:35},
-        {source:37, target:36},
-        {source:37, target:11},
-        {source:37, target:29},
-        {source:38, target:34},
-        {source:38, target:35},
-        {source:38, target:36},
-        {source:38, target:37},
-        {source:38, target:11},
-        {source:38, target:29},
-        {source:39, target:25},
-        {source:40, target:25},
-        {source:41, target:24},
-        {source:41, target:25},
-        {source:42, target:41},
-        {source:42, target:25},
-        {source:42, target:24},
-        {source:43, target:11},
-        {source:43, target:26},
-        {source:43, target:27},
-        {source:44, target:28},
-        {source:44, target:11},
-        {source:45, target:28},
-        {source:47, target:46},
-        {source:48, target:47},
-        {source:48, target:25},
-        {source:48, target:27},
-        {source:48, target:11},
-        {source:49, target:26},
-        {source:49, target:11},
-        {source:50, target:49},
-        {source:50, target:24},
-        {source:51, target:49},
-        {source:51, target:26},
-        {source:51, target:11},
-        {source:52, target:51},
-        {source:52, target:39},
-        {source:53, target:51},
-        {source:54, target:51},
-        {source:54, target:49},
-        {source:54, target:26},
-        {source:55, target:51},
-        {source:55, target:49},
-        {source:55, target:39},
-        {source:55, target:54},
-        {source:55, target:26},
-        {source:55, target:11},
-        {source:55, target:16},
-        {source:55, target:25},
-        {source:55, target:41},
-        {source:55, target:48},
-        {source:56, target:49},
-        {source:56, target:55},
-        {source:57, target:55},
-        {source:57, target:41},
-        {source:57, target:48},
-        {source:58, target:55},
-        {source:58, target:48},
-        {source:58, target:27},
-        {source:58, target:57},
-        {source:58, target:11},
-        {source:59, target:58},
-        {source:59, target:55},
-        {source:59, target:48},
-        {source:59, target:57},
-        {source:60, target:48},
-        {source:60, target:58},
-        {source:60, target:59},
-        {source:61, target:48},
-        {source:61, target:58},
-        {source:61, target:60},
-        {source:61, target:59},
-        {source:61, target:57},
-        {source:61, target:55},
-        {source:62, target:55},
-        {source:62, target:58},
-        {source:62, target:59},
-        {source:62, target:48},
-        {source:62, target:57},
-        {source:62, target:41},
-        {source:62, target:61},
-        {source:62, target:60},
-        {source:63, target:59},
-        {source:63, target:48},
-        {source:63, target:62},
-        {source:63, target:57},
-        {source:63, target:58},
-        {source:63, target:61},
-        {source:63, target:60},
-        {source:63, target:55},
-        {source:64, target:55},
-        {source:64, target:62},
-        {source:64, target:48},
-        {source:64, target:63},
-        {source:64, target:58},
-        {source:64, target:61},
-        {source:64, target:60},
-        {source:64, target:59},
-        {source:64, target:57},
-        {source:64, target:11},
-        {source:65, target:63},
-        {source:65, target:64},
-        {source:65, target:48},
-        {source:65, target:62},
-        {source:65, target:58},
-        {source:65, target:61},
-        {source:65, target:60},
-        {source:65, target:59},
-        {source:65, target:57},
-        {source:65, target:55},
-        {source:66, target:64},
-        {source:66, target:58},
-        {source:66, target:59},
-        {source:66, target:62},
-        {source:66, target:65},
-        {source:66, target:48},
-        {source:66, target:63},
-        {source:66, target:61},
-        {source:66, target:60},
-        {source:67, target:57},
-        {source:68, target:25},
-        {source:68, target:11},
-        {source:68, target:24},
-        {source:68, target:27},
-        {source:68, target:48},
-        {source:68, target:41},
-        {source:69, target:25},
-        {source:69, target:68},
-        {source:69, target:11},
-        {source:69, target:24},
-        {source:69, target:27},
-        {source:69, target:48},
-        {source:69, target:41},
-        {source:70, target:25},
-        {source:70, target:69},
-        {source:70, target:68},
-        {source:70, target:11},
-        {source:70, target:24},
-        {source:70, target:27},
-        {source:70, target:41},
-        {source:70, target:58},
-        {source:71, target:27},
-        {source:71, target:69},
-        {source:71, target:68},
-        {source:71, target:70},
-        {source:71, target:11},
-        {source:71, target:48},
-        {source:71, target:41},
-        {source:71, target:25},
-        {source:72, target:26},
-        {source:72, target:27},
-        {source:72, target:11},
-        {source:73, target:48},
-        {source:74, target:48},
-        {source:74, target:73},
-        {source:75, target:69},
-        {source:75, target:68},
-        {source:75, target:25},
-        {source:75, target:48},
-        {source:75, target:41},
-        {source:75, target:70},
-        {source:75, target:71},
-        {source:76, target:64},
-        {source:76, target:65},
-        {source:76, target:66},
-        {source:76, target:63},
-        {source:76, target:62},
-        {source:76, target:48},
-        {source:76, target:58}
-      ]
+      @loading = []
+      @expanding = []
+
+      @index = {}
+      @nodes = []
+      @links = []
+      @linked = {}
 
       @setup()
+
+      if @network.data('id')
+        @expand @network.data('id')
+      else
+        @bootstrap()
 
     setup: ->
       @svg = d3.select(@network[0]).append('svg')
       @defs = @svg.append('defs')
       @overlay = @svg.append('rect').attr('class', 'overlay')
-      @g = @svg.append('g')
+      @g = [@svg.append('g'), @svg.append('g')]
 
-      @link = @g.selectAll('.link')
-      @node = @g.selectAll('.node')
-      @svg.call d3.behavior.zoom().scaleExtent([1, 10]).on 'zoom', =>
-        @g.attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')')
+      @link = @g[0].selectAll('.link')
+      @node = @g[1].selectAll('.node')
+      @pattern = @defs.selectAll('pattern')
+      @zoom = d3.behavior.zoom().scaleExtent([1, 10]).on 'zoom', =>
+        @g[0].attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')')
+        @g[1].attr('transform', 'translate(' + d3.event.translate + ')scale(' + d3.event.scale + ')')
+      @svg.call(@zoom).on('dblclick.zoom', null)
 
-      @force = d3.layout.force().charge(-120).linkDistance(30)
+      @force = d3.layout.force().charge(-120).linkDistance (data) ->
+        return 15 + 15 * @nodes.length / 100 if data.bidirectional
+        return 50 + @nodes.length / 2
+
       @force.on 'tick', =>
         @link
           .attr('x1', (data) -> data.source.x)
@@ -366,50 +49,259 @@ unfollow.namespace 'unfollow.network', (exports) ->
         .on 'dragstart', ->
           d3.event.sourceEvent.stopPropagation()
         .on 'dragend', (data) ->
-          data.fixed = true
+
 
       $(window).resize => @resize()
       @resize()
 
-      @defs
-        .append('pattern')
-        .attr('id', 'ziyan')
-        .attr('patternUnits', 'objectBoundingBox')
-        .attr('width', 10)
-        .attr('height', 10)
-        .append('image')
-        .attr('xlink:href', 'https://pbs.twimg.com/profile_images/1169934089/avatarpic-l_normal.png')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('width', 10)
-        .attr('height', 10)
+      # initial zoom
+      initial_zoom = @network.data('zoom') or 4
+      @zoom
+        .translate([-@width / 2 * (initial_zoom - 1), -@height / 2 * (initial_zoom - 1)])
+        .scale(initial_zoom)
+        .event(d3.transition().duration(1000))
 
     resize: ->
-      width = $(window).width()
-      height = $(window).height()
+      @width = $(window).width()
+      @height = @network.data('height') or $(window).height()
 
-      @svg.attr('width', width).attr('height', height)
-      @overlay.attr('width', width).attr('height', height)
-      @force.size([width, height])
+      @svg.attr('width', @width).attr('height', @height)
+      @overlay.attr('width', @width).attr('height', @height)
+      @force.size([@width, @height])
 
       @update()
 
     update: ->
       @force.nodes(@nodes).links(@links).start()
 
-      @link = @link.data(@links)
-      @link.enter().append('line')
-        .attr('class', 'link')
-        .style('stroke-width', 1)
-      @link.exit().remove()
+      @pattern = @pattern.data(@nodes)
+      @pattern.enter().append('pattern')
+        .attr('id', (data) -> 'avatar_' + data.index)
+        .attr('patternUnits', 'objectBoundingBox')
+        .attr('width', 10)
+        .attr('height', 10)
+        .append('image')
+        .attr('xlink:href', (data) -> data.node.avatar)
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', 10)
+        .attr('height', 10)
+      @pattern.exit().remove()
 
       @node = @node.data(@nodes)
       @node.enter().append('circle')
         .attr('class', 'node')
         .attr('r', 5)
-        .attr('style', 'fill: url(#ziyan)')
+        .style('fill', (data) => 'url(#avatar_' + data.index + ')')
         .call(@force.drag)
+        .on('dblclick', (data) =>
+          return unless @network.data('id')
+          data.fixed = true
+          @expand data.node.id
+        )
+        .on('mouseover', (data) ->
+        )
+        .on('mouseout', (data) ->
+        )
       @node.exit().remove()
+      @node.append('title').text((data) -> data.node.name + ' (@' + data.node.screen_name + ')')
+      @node
+        .attr('class', (data) ->
+          classes = ['node']
+          classes.push 'expanded' if data.fixed
+          classes.push 'verified' if data.node.verified
+          classes.push 'protected' if data.node.protected
+          classes.push 'discovered' if data.node.friends_ids or data.node.followers_ids
+          classes.push 'loaded' if data.node.friends_loaded
+          return classes.join(' ')
+        )
+
+      @link = @link.data(@links)
+      @link.enter().append('line')
+        .attr('class', 'link')
+      @link.exit().remove()
+      @link
+        .attr('class', (data) ->
+          classes = ['link']
+          classes.push 'bidirectional' if data.bidirectional
+          return classes.join(' ')
+        )
+
+    linker: ->
+      linked = {}
+      $.each @nodes, (index, data) =>
+        return unless data.node.friends_ids
+        for friend_id in data.node.friends_ids
+          friend = @index[friend_id]
+          continue unless friend
+
+          bidirectional = false
+          bidirectional = true if data.node.followers_ids and data.node.followers_ids.indexOf(friend.id) >= 0
+          bidirectional = true if friend.friends_ids and friend.friends_ids.indexOf(data.node.id) >= 0
+
+          link =
+            source: data.node.index
+            target: friend.index
+            follower: data.node
+            friend: friend
+            bidirectional: bidirectional
+
+          if bidirectional
+            linked['' + data.node.id + '->' + friend.id] = null
+            linked['' + friend.id + '->' + data.node.id] = null
+            linked[[friend.id, data.node.id].sort().join('<->')] = link
+          else
+            key = '' + data.node.id + '->' + friend.id
+            if linked[key] is undefined
+              linked[key] = link 
+
+      @links = []
+      $.each linked, (i, link) =>
+        @links.push link if link
+
+    expand: (id) ->
+      @expanding.push id
+      @expander()
+
+    expander: ->
+      clearTimeout @expander_timer if @expander_timer
+      @expander_timer = null
+
+      expanding = []
+      for id in @expanding
+        node = @index[id]
+
+        # check if node is now fully loaded
+        if node
+          continue if node.protected
+          continue if node.friends_count is 0
+          if node.friends_ids and node.friends_ids.length > 0
+            loading = []
+            for friend_id in node.friends_ids
+              continue if @index[friend_id]
+              loading.push friend_id
+              break if loading.length > (@network.data('load') or 50)
+            if loading.length > 0
+              @load loading
+            else
+              node.friends_loaded = true
+              @linker()
+              @update()
+            continue
+
+        # continue to load node
+        expanding.push id
+
+        unfollow.ajax.post '/network/node', id: id, (data) =>
+          return unless data and data.id and data.node
+          node = data.node
+          node.id = data.id
+
+          existing = @index[node.id]
+          if existing
+            existing.friends_ids = node.friends_ids
+            existing.followers_ids = node.followers_ids
+            return
+
+          @index[node.id] = node
+          data = 
+            node: node
+            index: @nodes.length
+          data.node.index = data.index
+          @nodes.push data
+
+          if data.index is 0
+            data.px = @width / 2
+            data.py = @height / 2
+            data.fixed = true
+
+          @linker()
+          @update()
+
+      @expanding = expanding
+      @progress()
+
+      return if @expanding.length is 0
+      @expander_timer = setTimeout =>
+        return if @network.parents('body').length is 0
+        @expander()
+      , 1000
+
+    load: (ids) ->
+      for id in ids
+        @loading.push id
+      @loader()
+
+    loader: ->
+      clearTimeout @loader_timer if @loader_timer
+      @loader_timer = null
+
+      loading = []
+      for id in @loading
+        # check if node is loaded
+        continue if @index[id]
+
+        # continue to load node
+        loading.push id
+
+      @loading = loading
+      @progress()
+
+      return if loading.length is 0
+
+      unfollow.ajax.post '/network/nodes', ids: loading, (data) =>
+        return unless data and data.nodes
+        $.each data.nodes, (id, node) =>
+          node.id = parseInt id
+
+          existing = @index[node.id]
+          if existing
+            existing.friends_ids = node.friends_ids
+            existing.followers_ids = node.followers_ids
+            return
+
+          @index[node.id] = node
+          data = 
+            node: node
+            index: @nodes.length
+          data.node.index = data.index
+          @nodes.push data
+
+          @linker()
+          @update()
+
+      @loader_timer = setTimeout =>
+        return if @network.parents('body').length is 0
+        @loader()
+      , 1000
+
+    progress: ->
+      if @loading.length + @expanding.length > 0
+        $('div.js-loading').addClass('progress-striped active')
+      else
+        $('div.js-loading').removeClass('progress-striped active')
+
+    bootstrap: ->
+      $.getJSON unfollow.settings.STATIC + '/' + unfollow.settings.VERSION + '/data/bootstrap.json', (data) =>
+        @index = data
+
+        $.each @index, (id, node) =>
+          data = 
+            node: node
+            index: @nodes.length
+          data.node.index = data.index
+          if node.id is 7007262
+            data.px = @width / 7 * 3
+            data.py = @height / 2
+            data.fixed = true
+          if node.id is 1618521
+            data.px = @width / 7 * 4
+            data.py = @height / 2
+            data.fixed = true
+          @nodes.push data
+
+        @linker()
+        @update()
 
   on_network_init = ->
     network = $(this)

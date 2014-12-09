@@ -22,7 +22,7 @@ func LogonView(view *web.View) error {
         return err
     }
 
-    http.Redirect(view.Response, view.Request, urls.Reverse("page:home").String(), http.StatusTemporaryRedirect)
+    http.Redirect(view.Response, view.Request, urls.Reverse("page:network").String(), http.StatusTemporaryRedirect)
     return nil
 }
 

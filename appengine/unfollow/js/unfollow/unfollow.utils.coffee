@@ -6,7 +6,7 @@ unfollow.namespace 'unfollow.utils', (exports) ->
     return unless account
 
     require ['ga'], ->
-      window.ga 'create', account, 'unfollow.com'
+      window.ga 'create', account, 'unfollow.io'
       window.ga 'send', 'pageview',
         page: location.pathname + location.search + location.hash
         location: location.href
@@ -21,5 +21,22 @@ unfollow.namespace 'unfollow.utils', (exports) ->
       data[attribute.name.substr(5).replace(/\-/g, '_')] = attribute.value
     return data
 
+  exports.show_modal = (modal, callback) ->
+    $('.modal:visible').modal('hide')
+
+    modal = $(modal).removeClass('hide').addClass('offscreen').show().appendTo $(document.body)
+    setTimeout ->
+      modal.removeClass('offscreen').modal()
+      modal.on 'hidden.bs.modal', ->
+        modal.remove()
+      modal.on 'shown.bs.modal', ->
+        modal.find('input:visible,textarea:visible').filter(':first').focus()
+      callback modal if callback
+    , 150
+
   unfollow.init ->
     analytics(unfollow.settings.ANALYTICS)
+
+    $('div.js-modal').livequery ->
+      modal = $(this).removeClass('hide')
+      modal.modal().on 'hidden.bs.modal', -> modal.remove()

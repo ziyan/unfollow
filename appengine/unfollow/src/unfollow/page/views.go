@@ -13,10 +13,10 @@ func AboutView(view *web.View) error {
     return view.Render(nil, "html.html", "base.html", "page/about.html")
 }
 
-func HomeView(view *web.View) error {
+func NetworkView(view *web.View) error {
     if err := view.LoginRequired(); err != nil {
         return err
     }
 
-    return view.Render(nil, "html.html", "base.html", "page/home.html")
+    return view.Render(nil, "html.html", "base.html", "page/network.html")
 }

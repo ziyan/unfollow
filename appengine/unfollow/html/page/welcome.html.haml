@@ -1,2 +1,15 @@
 {{ define "content" }}
+.welcome<>
+  .network.js-network{"data-height" => 480}<>
+  .welcome-hero<>
+    .container<>
+      .welcome-action<>
+        {{ if .Session.User }}
+        %a.btn.btn-primary.btn-lg{href: "{{ url \"page:network\" }}"}<> {{ .GetText "Explore my Twitter network" }}
+        %p.note<> {{ .GetText "This is a prototype demonstration." }}
+        {{ else }}
+        %a.btn.btn-primary.btn-lg.js-ajax{href: "#", "data-ajax-get" => "/user/login"}<> {{ .GetText "Sign in with Twitter" }}
+        %p.note<> {{ .GetText "This is a prototype demonstration. Sign in with Twitter to start exploring your network." }}
+        {{ end }}
+
 {{ end }}

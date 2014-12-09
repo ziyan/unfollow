@@ -24,7 +24,8 @@ func Do(context appengine.Context, request *http.Request, response http.Response
         session.Save()
     }
 
-    if cookie, _ := request.Cookie(COOKIE_NAME); cookie == nil || cookie.Value != session.CSRFToken {
+    cookie, _ := request.Cookie(COOKIE_NAME)
+    if cookie == nil || cookie.Value != session.CSRFToken {
         http.SetCookie(response, &http.Cookie{
             Name:   COOKIE_NAME,
             Value:  session.CSRFToken,

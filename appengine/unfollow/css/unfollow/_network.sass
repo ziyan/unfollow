@@ -1,6 +1,6 @@
 .network
   position: absolute
-  top: -51px
+  top: -57px
   left: 0
   right: 0
   svg
@@ -9,8 +9,26 @@
       pointer-events: all
     .node
       fill: #666
-      stroke: #fff
+      stroke: white
       stroke-width: 1
+      stroke-opacity: 1
+      &.discovered
+        stroke: #08c
+        stroke-opacity: .5
+      &.expanded
+        stroke: #08c
+        stroke-opacity: 1
+      &.verified
+        stroke: #27ae60
+      &.protected
+        stroke: #d35400
+      &.loaded
+        stroke: #7f8c8d
+
     .link
-      stroke: #999
-      stroke-opacity: .6
+      stroke: #08c
+      stroke-width: .6
+      stroke-opacity: .3
+      &.bidirectional
+        stroke-opacity: .6
+        

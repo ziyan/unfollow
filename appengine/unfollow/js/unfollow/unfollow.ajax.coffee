@@ -12,7 +12,7 @@ unfollow.namespace 'unfollow.ajax', (exports) ->
       dataType: 'json'
       data: data or {}
       beforeSend: (xhr) ->
-        xhr.setRequestHeader 'X-CSRFToken', $.cookie('csrftoken') if method is 'POST'
+        xhr.setRequestHeader 'X-CSRF-Token', $.cookie('csrftoken') if method is 'POST'
 
     request.done (data) ->
       callback data, {} if callback

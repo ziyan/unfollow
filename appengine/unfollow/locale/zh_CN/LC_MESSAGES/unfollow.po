@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: unfollow 1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-12-08 01:49-0800\n"
+"POT-Creation-Date: 2014-12-09 04:28-0800\n"
 "PO-Revision-Date: 2014-04-29 20:32-0700\n"
 "Last-Translator: Ziyan Zhou <zhou@ziyan.info>\n"
 "Language-Team: Chinese (simplified)\n"
@@ -20,11 +20,33 @@ msgstr ""
 msgid "About Unfollow"
 msgstr ""
 
+#: ../html/page/network.html.haml:19
+msgid "Dark blue edges indicate reciprocal relationship."
+msgstr ""
+
+#: ../html/page/network.html.haml:22
+msgid "Dismiss"
+msgstr ""
+
+#: ../html/page/network.html.haml:18
+msgid ""
+"Double-click to expand leaf nodes. Note that edges from leaf nodes may take "
+"time to fetch if they are not already cached."
+msgstr ""
+
+#: ../html/page/welcome.html.haml:8
+msgid "Explore my Twitter network"
+msgstr ""
+
 #: ../html/inc/nav.html.haml:4
 msgid "Features"
 msgstr ""
 
-#: ../html/inc/footer.html.haml:23
+#: ../html/page/network.html.haml:13
+msgid "Here are some helpful tips to get you started."
+msgstr ""
+
+#: ../html/inc/footer.html.haml:19
 msgid "Language"
 msgstr ""
 
@@ -32,16 +54,41 @@ msgstr ""
 msgid "Sign in with"
 msgstr "登录"
 
-#: ../html/base.html.haml:7
+#: ../html/page/welcome.html.haml:11
+#, fuzzy
+msgid "Sign in with Twitter"
+msgstr "登录"
+
+#: ../html/page/network.html.haml:17
+msgid ""
+"The network explorer loads 25 friends at a time. Double-click to load "
+"additional friends."
+msgstr ""
+
+#: ../html/page/welcome.html.haml:9
+msgid "This is a prototype demonstration."
+msgstr ""
+
+#: ../html/page/welcome.html.haml:12
+msgid ""
+"This is a prototype demonstration. Sign in with Twitter to start exploring "
+"your network."
+msgstr ""
+
+#: ../html/base.html.haml:10
 msgid "Toggle navigation"
 msgstr "切换导航"
 
-#: ../html/base.html.haml:11
+#: ../html/base.html.haml:14
 msgid "Un<b>follow</b>"
 msgstr ""
 
 #: ../src/unfollow/web/view.go:75
 msgid "Unfollow"
+msgstr ""
+
+#: ../html/page/network.html.haml:12
+msgid "Welcome!"
 msgstr ""
 
 #, fuzzy

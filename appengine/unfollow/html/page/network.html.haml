@@ -1,0 +1,27 @@
+{{ define "content" }}
+.network.js-network{"data-id" => "{{ .Session.User.ID }}", "data-zoom" => 5, "data-load" => 25}<>
+
+.modal.fade.hide.js-modal<>
+  .modal-dialog
+    .modal-content
+      %button.close{type: "button", "data-dismiss" => "modal"}<>
+        %i.fa.fa-times<>
+
+      .modal-header.modal-headline<>
+        %i.fa.fa-4x.fa-thumbs-o-up<>
+        %h2<> {{ .GetText "Welcome!" }}
+        %p.note<> {{ .GetText "Here are some helpful tips to get you started." }}
+
+      .modal-body<>
+        %ol<>
+          %li<> {{ .GetText "The network explorer loads 25 friends at a time. Double-click to load additional friends." }}
+          %li<> {{ .GetText "Double-click to expand leaf nodes. Note that edges from leaf nodes may take time to fetch if they are not already cached." }}
+          %li<> {{ .GetText "Dark blue edges indicate reciprocal relationship." }}
+          %li<> {{ .GetText "Due to the strict rate limit of Twitter APIs, we are only able to perform limited amount of API calls within each 15-minute window. If some nodes never finishes loading, it is very likely that we temporarily run out of tokens. Please come back in 15-minutes and the operations should resume." }}
+
+        .note<> {{ .GetText "This is a prototype demonstration. Please do let us know if you have any questions or comments. Email us at zhou [at] ziyan [dot] info." }}
+
+      .modal-footer<>
+        %button.btn.btn-primary{type: "button", "data-dismiss" => "modal"}<> {{ .GetText "Dismiss" }}
+
+{{ end }}

@@ -35,7 +35,7 @@ var URL = func() *url.URL {
     return url
 }()
 
-var ANALYTICS = "UA-53151707-1"
+var ANALYTICS = "UA-363200-7"
 
 var SECRET = []byte("RAQAyy7AkR84rznnqDhOnMYZvnFDiHbe0HSF650lgVVkrketrEPmY2130GVxBNyADfS8eDFHNKf")
 
