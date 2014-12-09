@@ -10,9 +10,9 @@ queue:
   max_concurrent_requests: 5
   retry_parameters:
     task_age_limit: 365d
-    min_backoff_seconds: 5
+    min_backoff_seconds: 2
     max_backoff_seconds: 86400
-    max_doublings: 16
+    max_doublings: 10
 
 - name: network
   mode: pull
