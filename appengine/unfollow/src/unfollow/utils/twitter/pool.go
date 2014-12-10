@@ -53,6 +53,13 @@ func (twitter *Twitter) ReleaseAccessToken(task *taskqueue.Task, limit, remainin
     return nil
 }
 
+func (twitter *Twitter) DeleteAccessToken(task *taskqueue.Task) error {
+    if err := taskqueue.Delete(twitter.Context, task, "twitter"); err != nil {
+        return err
+    }
+    return nil
+}
+
 func PoolAccessToken(context appengine.Context, token *oauth.Token) error {
     encoded := token.Encode()
 

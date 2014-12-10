@@ -53,9 +53,5 @@ var LOCALES = map[string]string{
     "zh_CN": "简体中文",
     "ja_JP": "日本語",
 }
-var LOCALE_PATTERNS = map[string]string{
-    "zh": "zh_CN",
-    "ja": "ja_JP",
-}
 
 var TWITTER_CONSUMER = oauth.NewToken("BBGDVII6UxbTvD77pN6eKvHq9", "xeSZo1SHASytg52DXAt4XRowmZJma5X2ZHoHVuZuCpWHvVrO6o")

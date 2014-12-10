@@ -23,6 +23,7 @@ var (
     ErrCallbackUnconfirmed = errors.New("twitter: callback unconfirmed")
     ErrNotFound            = errors.New("twitter: not found")
     ErrRateLimitReached    = errors.New("twitter: rate limit reached")
+    ErrTokenInvalid        = errors.New("twitter: token invalid")
 
     API_ACCOUNT_VERIFY_CREDENTIALS = "account_verify_credentials"
     API_USERS_SHOW                 = "users_show"
@@ -246,28 +247,38 @@ func (twitter *Twitter) Request(method, api string, values url.Values, payload, 
         }
         defer response.Body.Close()
 
-        // report rate limit
-        limit, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Limit"), 10, 64)
-        if err != nil {
-            limit = 15
-        }
+        if response.StatusCode == 401 {
+            twitter.Context.Infof("twitter: token invalid or expired: %s", accessToken.Encode())
+            if task != nil {
+                if err := twitter.DeleteAccessToken(task); err != nil {
+                    return err
+                }
+            }
+        } else {
 
-        remaining, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Remaining"), 10, 64)
-        if err != nil {
-            remaining = 0
-        }
-
-        reset, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Reset"), 10, 64)
-        if err != nil {
-            reset = time.Now().Unix() + 15 * 60
-        }
-
-        twitter.Context.Infof("twitter: ratelimit: limit = %d, remain = %d, reset = %d", limit, remaining, reset)
-
-        // release token back to the pool
-        if task != nil {
-            if err := twitter.ReleaseAccessToken(task, limit, remaining, reset); err != nil {
+            // report rate limit
+            limit, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Limit"), 10, 64)
+            if err != nil {
                 return err
+            }
+
+            remaining, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Remaining"), 10, 64)
+            if err != nil {
+                return err
+            }
+
+            reset, err := strconv.ParseInt(response.Header.Get("X-Rate-Limit-Reset"), 10, 64)
+            if err != nil {
+                return err
+            }
+
+            twitter.Context.Infof("twitter: ratelimit: limit = %d, remain = %d, reset = %d", limit, remaining, reset)
+
+            // release token back to the pool
+            if task != nil {
+                if err := twitter.ReleaseAccessToken(task, limit, remaining, reset); err != nil {
+                    return err
+                }
             }
         }
 
@@ -275,6 +286,12 @@ func (twitter *Twitter) Request(method, api string, values url.Values, payload, 
         case response.StatusCode >= 200 && response.StatusCode < 300:
         case response.StatusCode == 404:
             return ErrNotFound
+        case response.StatusCode == 401:
+            if twitter.AccessToken == nil {
+                // try a different token
+                continue
+            }
+            return ErrTokenInvalid
         case response.StatusCode == 429:
             if twitter.AccessToken == nil {
                 // try a different token

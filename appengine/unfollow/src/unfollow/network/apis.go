@@ -1,11 +1,11 @@
 package network
 
 import (
-    "unfollow/api"
-    "unfollow/web"
-    "unfollow/models"
-    "strings"
     "strconv"
+    "strings"
+    "unfollow/api"
+    "unfollow/models"
+    "unfollow/web"
 )
 
 var _ = api.Get("network:nodes", "/network/nodes", func(handler *web.Handler) (interface{}, error) {
@@ -33,6 +33,6 @@ var _ = api.Get("network:nodes", "/network/nodes", func(handler *web.Handler) (i
     }
 
     return struct {
-        Nodes  map[string]*models.Node `json:"nodes"`
+        Nodes map[string]*models.Node `json:"nodes"`
     }{results}, nil
 })

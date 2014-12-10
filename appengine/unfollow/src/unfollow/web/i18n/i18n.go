@@ -7,7 +7,6 @@ import (
     "net/http"
     "os"
     "path"
-    "regexp"
     "unfollow/settings"
     "unfollow/web/sessions"
 )
@@ -72,16 +71,8 @@ func pick(context appengine.Context, request *http.Request, session *sessions.Se
         }
     }
 
-    // guess from accept language
+    // use default
     session.Locale = settings.DEFAULT_LOCALE
-    for _, header := range request.Header[HEADER_NAME] {
-        for pattern, locale := range settings.LOCALE_PATTERNS {
-            if matched, _ := regexp.MatchString(pattern, header); matched {
-                session.Locale = locale
-                break
-            }
-        }
-    }
     session.Save()
     return session.Locale, catalogs[session.Locale]
 }

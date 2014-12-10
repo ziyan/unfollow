@@ -13,7 +13,7 @@ var _ = ajax.Post("network:nodes", "/network/nodes", func(view *web.View) (inter
     }
 
     data := struct {
-        IDs   []int64 `json:"ids"`
+        IDs []int64 `json:"ids"`
     }{}
 
     if err := ajax.Decode(view, &data); err != nil {
@@ -42,7 +42,7 @@ var _ = ajax.Post("network:nodes", "/network/nodes", func(view *web.View) (inter
     }
 
     return struct {
-        Nodes  map[string]*models.Node `json:"nodes"`
+        Nodes map[string]*models.Node `json:"nodes"`
     }{results}, nil
 })
 
@@ -52,7 +52,7 @@ var _ = ajax.Post("network:node", "/network/node", func(view *web.View) (interfa
     }
 
     data := struct {
-        ID    int64 `json:"id"`
+        ID int64 `json:"id"`
     }{}
 
     if err := ajax.Decode(view, &data); err != nil {
@@ -73,7 +73,7 @@ var _ = ajax.Post("network:node", "/network/node", func(view *web.View) (interfa
     }
 
     return struct {
-        ID     int64        `json:"id"`
-        Node   *models.Node `json:"node"`
+        ID   int64        `json:"id"`
+        Node *models.Node `json:"node"`
     }{data.ID, node}, nil
 })
